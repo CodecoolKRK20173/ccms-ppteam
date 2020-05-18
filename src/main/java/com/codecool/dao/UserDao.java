@@ -41,6 +41,17 @@ public class UserDao extends Dao {
         return users;
     }
 
+    // przemyslec uniwersalne metody
+    public void addMentor(Object givenMentor) throws SQLException {
+        User user = (Mentor) givenMentor;
+        connect();
+        statement.executeUpdate("INSERT INTO User (name, surname, email, password, type) VALUES('" + user.getName() + "', '"
+                + user.getSurname() + "', '" + user.getEmail() + "', '" + user.getPassword() + "', '" + user.getType()
+                + "');");
+        statement.close();
+        connection.close();
+    }
+
     public void removeMentor(String name) throws SQLException {//ewentualnie dolozyc surname dla pewnosci
         connect();
         statement.executeUpdate("DELETE FROM User WHERE name ='" + name + "' AND type = mentor;");
