@@ -46,8 +46,7 @@ public class UserDao extends Dao {
         User user = (Mentor) givenMentor;
         connect();
         statement.executeUpdate("INSERT INTO User (name, surname, email, password, type) VALUES('" + user.getName() + "', '"
-                + user.getSurname() + "', '" + user.getEmail() + "', '" + user.getPassword() + "', '" + user.getType()
-                + "');");
+                + user.getSurname() + "', '" + user.getEmail() + "', '" + user.getPassword() + "', '" + user.getType() + "');");
         statement.close();
         connection.close();
     }
@@ -57,5 +56,17 @@ public class UserDao extends Dao {
         statement.executeUpdate("DELETE FROM User WHERE name ='" + name + "' AND type = mentor;");
         statement.close();
         connection.close();
+    }
+
+    public void editMentorsData(String paramToEdit, String previousData, String newData) {
+        connect();
+        try {
+            statement.executeUpdate("Update User SET '" + paramToEdit + "' = '" + newData + "' " +
+                                        "WHERE '" + paramToEdit + "' = '" + previousData + "';");
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
