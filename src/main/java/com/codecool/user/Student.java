@@ -1,6 +1,9 @@
 package com.codecool.user;
 
+import com.codecool.models.Classroom;
+import com.codecool.models.Grade;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Student extends User{
     private List<Grade> grades;
