@@ -38,7 +38,13 @@ public class UserDao extends Dao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return users;
+    }
+
+    public void removeMentor(String name) throws SQLException {//ewentualnie dolozyc surname dla pewnosci
+        connect();
+        statement.executeUpdate("DELETE FROM User WHERE name ='" + name + "' AND type = mentor;");
+        statement.close();
+        connection.close();
     }
 }
