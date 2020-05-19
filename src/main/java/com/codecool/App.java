@@ -1,13 +1,12 @@
 package com.codecool;
 
-/**
- * Hello world!
- *
- */
+import com.codecool.dao.UserDao;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        UserDao userDao = new UserDao();
+        System.out.println(userDao.getGivenTypeOfUsersList("student"));
     }
 }
