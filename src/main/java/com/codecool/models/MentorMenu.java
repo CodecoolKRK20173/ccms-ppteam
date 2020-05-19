@@ -3,15 +3,16 @@ package com.codecool.models;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
-public class AdminMenu {
-    private static AdminMenu instance;
-    private String[] menu = {"1.Show students list", "2.Show mentors list" , "3.Add new mentor", "4.Remove mentor", "5.Edit mentors data", "0.Exit"};
+public class MentorMenu {
+    private static MentorMenu instance;
+    private String[] menu = {"1.Show students list", "2.Add Assignment", "3.Grade an assignment", "4.Check Attendance" ,
+            "5.Add student to class", "6.Remove Student from class", "7.Edit student data", "0.Exit"};
 
-    public static AdminMenu getInstance() {
+    public static MentorMenu getInstance() {
         if (instance == null) {
             synchronized(MentorMenu.class) {
                 if (instance == null) {
-                    instance = new AdminMenu();
+                    instance = new MentorMenu();
                 }
             }
         }
@@ -32,6 +33,10 @@ public class AdminMenu {
                 case 4:
                     break;
                 case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
                     break;
                 case 0:
                     isRunning = false;

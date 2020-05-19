@@ -2,57 +2,63 @@ package com.codecool.models;
 
 import com.codecool.utilities.*;
 
-import java.util.HashMap;
+import static com.codecool.models.UserTypes.*;
 
 public class MenuHandler {
     public boolean isRunning;
-    private View view;
-    private InputProvider inputProvider;
+    private final String[] menu = {"Welcome to CcMS" ,"1. Log in", "0. Exit"};
+
 
     public MenuHandler() {
-        view = new View();
-        inputProvider = new InputProvider();
         isRunning = true;
     }
 
     public void mainMenu() {
-        view.mainMenu();
-        switch (inputProvider.getInt("SELECT OPTION: ")){
-            view.clearScreen();
+        View.getInstance().showMenu(menu);
+        switch (InputProvider.getInstance().getInt("SELECT OPTION: ")){
             case 1:
                 login();
                 break;
-            case 2:
+            case 0:
                 isRunning = false;
                 break;
+            default:
+                System.out.println("jeszcze raz");
         }
     }
 
     private void login() {
-        String email = InputProvider.getString("Enter Email: ");
+        String email;
+        do {
+            email = InputProvider.getString("Enter Email: ");
+            }while (!EmailValidation.isValidEmail(email));
         String password = InputProvider.getString("Enter Password: ");
-        view.clearScreen();
-        accountValidation();
-        switch (InputProvider.getInt("choice: ")){
-            case 1:
-                new AdminMenu.getInstance();
+        View.getInstance().clearScreen();
+        UserTypes userType = (accountValidation()) ? selectTypeOfAccount() : NONE;
+        switch (userType){
+            case MENTOR:
+                MentorMenu.getInstance().menu();
                 break;
-            case 2:
-                new mentorMenu();
+            case ADMIN:
+                AdminMenu.getInstance().menu();
                 break;
-            case 3:
-                new officeMemberMenu();
+            case OFFICE_MEMBER:
+                OfficeMemberMenu.getInstance().menu();
                 break;
-            case 4:
-                new studentMenu();
+            case STUDENT:
+                StudentMenu.getInstance().menu();
                 break;
-            default:
-                view.wrongData();
+            case NONE:
+                View.getInstance().wrongData();
         }
     }
 
-    private void accountValidation() {
+    private UserTypes selectTypeOfAccount() {
+        return ADMIN;
+    }
 
+    private boolean accountValidation() {
+        return true;
     }
 
 

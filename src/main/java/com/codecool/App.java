@@ -1,12 +1,14 @@
 package com.codecool;
 
-import com.codecool.dao.UserDao;
+import com.codecool.models.MenuHandler;
 
-public class App 
+public class App
 {
     public static void main( String[] args )
     {
-        UserDao userDao = new UserDao();
-        System.out.println(userDao.getGivenTypeOfUsersList("student"));
+        MenuHandler menuHandler = new MenuHandler();
+        while (menuHandler.isRunning) {
+            menuHandler.mainMenu();
+        }
     }
 }
