@@ -16,7 +16,12 @@ public class UserDao extends Dao {
         connect();
 
         try {
-            ResultSet results = statement.executeQuery("SELECT * FROM Users WHERE type LIKE '" + userType + "';");
+            ResultSet results;
+            if (userType.equals("student")) {
+                results = statement.executeQuery("SELECT * FROM Students;");
+            } else {
+                results = statement.executeQuery("SELECT * FROM Employees WHERE type LIKE '" + userType + "';");
+            }
             while (results.next()) {
                 int id = results.getInt("id");
                 String name = results.getString("name");
@@ -25,7 +30,7 @@ public class UserDao extends Dao {
                 String password = results.getString("password");
                 String type = results.getString("type");
                 User user;
-                if (type.equals("Student")) {
+                if (type.equals("student")) {
                     user = new Student(id, name, surname, email, password, type);
                 } else {
                     user = new Mentor(id, name, surname, email, password, type);
@@ -41,18 +46,24 @@ public class UserDao extends Dao {
         return users;
     }
 
-    // przemyslec uniwersalne metody
-    public void addMentor(Object givenMentor) throws SQLException {
-        User user = (Mentor) givenMentor;
+    public void addUser(User givenUser) throws SQLException {
         connect();
-        statement.executeUpdate("INSERT INTO User (name, surname, email, password, type) VALUES('" + user.getName() + "', '"
-                + user.getSurname() + "', '" + user.getEmail() + "', '" + user.getPassword() + "', '" + user.getType() + "');");
+        if (givenUser.getType().equals("student")) {
+            statement.executeUpdate("INSERT INTO Students (name, surname, email, password, type) VALUES('" + givenUser.getName() + "', '"
+                    + givenUser.getSurname() + "', '" + givenUser.getEmail() + "', '" + givenUser.getPassword() + "', '" + givenUser.getType() + "');");
+        } else {
+            statement.executeUpdate("INSERT INTO Employees (name, surname, email, password, type) VALUES('" + givenUser.getName() + "', '"
+                    + givenUser.getSurname() + "', '" + givenUser.getEmail() + "', '" + givenUser.getPassword() + "', '" + givenUser.getType() + "');");
+        }
         statement.close();
         connection.close();
     }
 
-    public void removeMentor(String name) throws SQLException {//ewentualnie dolozyc surname dla pewnosci
+    public void removeUser(String name, String userType) throws SQLException {//ewentualnie dolozyc surname dla pewnosci
         connect();
+        if (userType.equals("student")) {
+            statement.executeUpdate("DELETE FROM User WHERE name ='" + name + "' AND type = mentor;");
+        }
         statement.executeUpdate("DELETE FROM User WHERE name ='" + name + "' AND type = mentor;");
         statement.close();
         connection.close();
@@ -62,7 +73,7 @@ public class UserDao extends Dao {
         connect();
         try {
             statement.executeUpdate("Update User SET '" + paramToEdit + "' = '" + newData + "' " +
-                                        "WHERE '" + paramToEdit + "' = '" + previousData + "';");
+                    "WHERE '" + paramToEdit + "' = '" + previousData + "';");
             statement.close();
             connection.close();
         } catch (SQLException e) {
