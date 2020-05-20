@@ -1,6 +1,7 @@
 package com.codecool.dao;
 
 import com.codecool.user.Mentor;
+import com.codecool.user.OfficeMember;
 import com.codecool.user.Student;
 import com.codecool.user.User;
 
@@ -24,10 +25,10 @@ public class UserDao extends Dao {
                                                     "WHERE userType LIKE 'student';");
             } else {
                 results = statement.executeQuery("SELECT * FROM UserDetails " +
-                                                    "WHERE type LIKE '" + userType + "';");
+                                                    "WHERE userType LIKE '" + userType + "';");
             }
             while (results.next()) {
-                int id = results.getInt("id");
+                int id = results.getInt("userDetailsId");
                 String name = results.getString("name");
                 String surname = results.getString("surname");
                 String email = results.getString("email");

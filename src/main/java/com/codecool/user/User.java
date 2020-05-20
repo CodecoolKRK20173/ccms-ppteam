@@ -64,4 +64,9 @@ public abstract class User {
     public void setType(String type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%d %s %s %s %s %s", id, name, surname, email, password, type);
+    }
 }
