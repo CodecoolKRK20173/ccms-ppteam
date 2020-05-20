@@ -1,5 +1,7 @@
 package com.codecool.models;
 
+import com.codecool.dao.UserDao;
+import com.codecool.user.User;
 import com.codecool.utilities.*;
 
 import static com.codecool.models.UserTypes.*;
@@ -28,14 +30,16 @@ public class MenuHandler {
     }
 
     private void login() {
-        String email;
-        do {
-            email = InputProvider.getString("Enter Email: ");
-            }while (!EmailValidation.isValidEmail(email));
+        String email = InputProvider.getEmail();
         String password = InputProvider.getString("Enter Password: ");
+        UserDao dao = new UserDao();
+        UserTypes type = NONE;
+        try {
+            User user = dao.getUserByEmailandPassword(email, password);
+            type = user.getType();
+        }catch (Exception e){}
         View.getInstance().clearScreen();
-        UserTypes userType = (accountValidation()) ? selectTypeOfAccount() : NONE;
-        switch (userType){
+        switch (type){
             case MENTOR:
                 MentorMenu.getInstance().menu();
                 break;
@@ -52,14 +56,5 @@ public class MenuHandler {
                 View.getInstance().wrongData();
         }
     }
-
-    private UserTypes selectTypeOfAccount() {
-        return OFFICE_MEMBER;
-    }
-
-    private boolean accountValidation() {
-        return true;
-    }
-
 
 }
