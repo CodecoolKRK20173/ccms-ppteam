@@ -1,20 +1,22 @@
 package com.codecool.user;
 
+import com.codecool.models.UserTypes;
+
 public abstract class User {
     private int id;
     private String name;
     private String surname;
     private String email;
     private String password;
-    private String type;
+    private UserTypes userType;
 
-    public User(int id, String name, String surname, String email, String password, String type) {
+    public User(int id, String name, String surname, String email, String password, UserTypes type) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
-        this.type = type;
+        this.userType = type;
     }
 
     public int getId() {
@@ -57,11 +59,11 @@ public abstract class User {
         this.password = password;
     }
 
-    public String getType() {
-        return type;
+    public UserTypes getType() {
+        return userType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(UserTypes type) {
+        this.userType = type;
     }
 }
