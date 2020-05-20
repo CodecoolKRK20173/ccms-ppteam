@@ -13,12 +13,15 @@ public class UserDao extends Dao {
 
     public List<User> getGivenTypeOfUsersList(String userType) {
         List<User> users = new ArrayList<>();
+        User user;
         connect();
 
         try {
             ResultSet results;
             if (userType.equals("student")) {
-                results = statement.executeQuery("SELECT * FROM Students;");
+                results = statement.executeQuery("SELECT UserDetails.*, Students.classroom FROM UserDetails" +
+                        "JOIN Students ON userDetails.id = userDetailsID" +
+                        "WHERE userType LIKE 'student';");
             } else {
                 results = statement.executeQuery("SELECT * FROM Employees WHERE type LIKE '" + userType + "';");
             }
@@ -28,10 +31,10 @@ public class UserDao extends Dao {
                 String surname = results.getString("surname");
                 String email = results.getString("email");
                 String password = results.getString("password");
-                String type = results.getString("type");
-                User user;
+                String type = results.getString("userType");
                 if (type.equals("student")) {
-                    user = new Student(id, name, surname, email, password, type);
+                    String classroom = results.getString("classroom");
+                    user = new Student(id, name, surname, email, password, type, classroom);
                 } else {
                     user = new Mentor(id, name, surname, email, password, type);
                 }
