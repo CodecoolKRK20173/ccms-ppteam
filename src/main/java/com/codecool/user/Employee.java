@@ -1,5 +1,6 @@
 package com.codecool.user;
 
+import com.codecool.dao.UserDao;
 import com.codecool.models.UserTypes;
 
 import java.util.List;
@@ -10,8 +11,5 @@ public abstract class Employee extends User {
         super(id, name, surname, email, password, type);
     }
 
-    public List<Student> getStudentsList() {
-        //TODO
-        return null;
-    }
+    public abstract List<User> getStudentsList();
 }

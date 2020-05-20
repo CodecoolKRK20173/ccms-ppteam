@@ -31,4 +31,9 @@ public class Student extends User{
 //    public void setClassroom(Classroom classroom) {
 //        this.classroom = classroom;
 //    }
+
+    @Override
+    public String toString() { // dorzucic classroma
+        return String.format("%d %s %s %s %s %s %s", this.getId(), this.getName(), this.getSurname(), this.getEmail(), this.getPassword(), this.getType());
+    }
 }
