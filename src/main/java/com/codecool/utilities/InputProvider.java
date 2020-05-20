@@ -26,5 +26,13 @@ public class InputProvider {
         System.out.print(prompt);
         return scanner.next();
     }
+
+    public static String getEmail() {
+        String email;
+        do {
+            email = InputProvider.getString("Enter Email: ");
+        }while (!EmailValidation.isValidEmail(email));
+        return email;
+    }
 }
 
