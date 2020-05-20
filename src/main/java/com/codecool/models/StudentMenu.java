@@ -1,10 +1,12 @@
 package com.codecool.models;
 
+import com.codecool.user.Student;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
 public class StudentMenu {
     private static StudentMenu instance;
+    private Student student;
     private String[] menu = {"1.Show grades" , "2.Submit assignment", "0. Exit"};
 
     public static StudentMenu getInstance() {

@@ -1,11 +1,13 @@
 package com.codecool.models;
 
 import com.codecool.dao.UserDao;
+import com.codecool.user.OfficeMember;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
 public class OfficeMemberMenu {
     private static OfficeMemberMenu instance;
+    private OfficeMember officeMember;
     private final String[] menu = {"1.Show students list", "0.Exit"};
 
     private OfficeMemberMenu(){}
