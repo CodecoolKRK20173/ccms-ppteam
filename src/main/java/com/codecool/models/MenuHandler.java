@@ -54,7 +54,7 @@ public class MenuHandler {
     }
 
     private UserTypes selectTypeOfAccount() {
-        return ADMIN;
+        return OFFICE_MEMBER;
     }
 
     private boolean accountValidation() {
