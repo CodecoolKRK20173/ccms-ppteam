@@ -51,11 +51,11 @@ public class UserDao extends Dao {
         return users;
     }
 
-    public void addMentor(Mentor mentor) throws SQLException {
+    public void addMentor(String name, String surname, String email, String password) throws SQLException {
         connect();
         statement.executeUpdate("INSERT INTO UserDetails (name, surname, email, password, userType, ) " +
-                "VALUES('" + mentor.getName() + "', '" + mentor.getSurname() + "', '" + mentor.getEmail() + "', '" + mentor.getPassword() + "', '" + mentor.getType() + "');" +
-                "INSERT INTO Mentors (userDetailsId) SELECT userDetailsId WHERE email LIKE '" + mentor.getEmail() + "';");
+                "VALUES('" + name + "', '" + surname + "', '" + email + "', '" + password + "', mentor);" +
+                "INSERT INTO Mentors (userDetailsId) SELECT userDetailsId WHERE email LIKE '" + email + "';");
         statement.close();
         connection.close();
     }
