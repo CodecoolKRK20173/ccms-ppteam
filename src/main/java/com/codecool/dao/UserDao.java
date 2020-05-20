@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserDao extends Dao {
 
-    public List<User> getGivenTypeOfUsersList(String userType) {
+    public List<User> getUsersList(String userType) {
         List<User> users = new ArrayList<>();
         User user;
         connect();
@@ -20,10 +20,11 @@ public class UserDao extends Dao {
             ResultSet results;
             if (userType.equals("student")) {
                 results = statement.executeQuery("SELECT UserDetails.*, Students.classroom FROM UserDetails" +
-                        "JOIN Students ON userDetails.id = userDetailsID" +
-                        "WHERE userType LIKE 'student';");
+                                                    "JOIN Students ON userDetails.id = userDetailsID" +
+                                                    "WHERE userType LIKE 'student';");
             } else {
-                results = statement.executeQuery("SELECT * FROM Employees WHERE type LIKE '" + userType + "';");
+                results = statement.executeQuery("SELECT * FROM UserDetails " +
+                                                    "WHERE type LIKE '" + userType + "';");
             }
             while (results.next()) {
                 int id = results.getInt("id");
@@ -49,34 +50,46 @@ public class UserDao extends Dao {
         return users;
     }
 
-    public void addUser(User givenUser) throws SQLException {
+    public void addMentor(Mentor mentor) throws SQLException {
         connect();
-        if (givenUser.getType().equals("student")) {
-            statement.executeUpdate("INSERT INTO Students (name, surname, email, password, type) VALUES('" + givenUser.getName() + "', '"
-                    + givenUser.getSurname() + "', '" + givenUser.getEmail() + "', '" + givenUser.getPassword() + "', '" + givenUser.getType() + "');");
-        } else {
-            statement.executeUpdate("INSERT INTO Employees (name, surname, email, password, type) VALUES('" + givenUser.getName() + "', '"
-                    + givenUser.getSurname() + "', '" + givenUser.getEmail() + "', '" + givenUser.getPassword() + "', '" + givenUser.getType() + "');");
-        }
+        statement.executeUpdate("INSERT INTO UserDetails (name, surname, email, password, userType, ) " +
+                "VALUES('" + mentor.getName() + "', '" + mentor.getSurname() + "', '" + mentor.getEmail() + "', '" + mentor.getPassword() + "', '" + mentor.getType() + "');" +
+                "INSERT INTO Mentors (userDetailsId) SELECT userDetailsId WHERE email LIKE '" + mentor.getEmail() + "';");
         statement.close();
         connection.close();
     }
 
-    public void removeUser(String name, String userType) throws SQLException {//ewentualnie dolozyc surname dla pewnosci
+//    public void removeUser(String name, String userType) throws SQLException {//ewentualnie dolozyc surname dla pewnosci
+//        connect();
+//        if (userType.equals("student")) {
+//            statement.executeUpdate("DELETE FROM User WHERE name ='" + name + "' AND type = mentor;");
+//        }
+//        statement.executeUpdate("DELETE FROM User WHERE name ='" + name + "' AND type = mentor;");
+//        statement.close();
+//        connection.close();
+//    }
+
+    public void removeUserById(int id) throws SQLException {
         connect();
-        if (userType.equals("student")) {
-            statement.executeUpdate("DELETE FROM User WHERE name ='" + name + "' AND type = mentor;");
-        }
-        statement.executeUpdate("DELETE FROM User WHERE name ='" + name + "' AND type = mentor;");
+        statement.executeUpdate("begin;" +
+                                    "DELETE FROM UserDetails WHERE id ='" + id + "';" +
+                                    "DELETE FROM Students WHERE id ='" + id + "';" +
+                                    "DELETE FROM Attendance WHERE id ='" + id + "';" +
+                                    "DELETE FROM Assignments WHERE id ='" + id + "';" +
+                                    "DELETE FROM Admins WHERE id ='" + id + "';" +
+                                    "DELETE FROM Mentors WHERE id ='" + id + "';" +
+                                    "DELETE FROM OfficeMembers WHERE id ='" + id + "';" +
+                                    "commit;");
         statement.close();
         connection.close();
     }
 
-    public void editMentorsData(String paramToEdit, String previousData, String newData) {
+    public void editUserDataById(int id, String table, String paramToEdit, String newData) {
         connect();
         try {
-            statement.executeUpdate("Update User SET '" + paramToEdit + "' = '" + newData + "' " +
-                    "WHERE '" + paramToEdit + "' = '" + previousData + "';");
+            statement.executeUpdate("Update '" + table +
+                                        "' SET '" + paramToEdit + "' = '" + newData + "' " +
+                                        "WHERE userDetailsId = '" + id + "';");
             statement.close();
             connection.close();
         } catch (SQLException e) {
