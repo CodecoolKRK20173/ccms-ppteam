@@ -1,5 +1,6 @@
 package com.codecool.models;
 
+import com.codecool.containers.UsersContainer;
 import com.codecool.dao.UserDao;
 import com.codecool.user.OfficeMember;
 import com.codecool.utilities.InputProvider;
@@ -9,6 +10,7 @@ public class OfficeMemberMenu {
     private static OfficeMemberMenu instance;
     private OfficeMember officeMember;
     private final String[] menu = {"1.Show students list", "0.Exit"};
+    UsersContainer usersContainer = new UsersContainer();
 
     private OfficeMemberMenu(){}
 
@@ -29,6 +31,8 @@ public class OfficeMemberMenu {
             View.getInstance().showMenu(menu);
             switch (InputProvider.getInt("SELECT OPTION: ")){
                 case 1:
+//                    View.getInstance().printTable();
+                    System.out.println(usersContainer.getStudentsList());
                     break;
                 case 0:
                     isRunning = false;
