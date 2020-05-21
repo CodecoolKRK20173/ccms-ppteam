@@ -1,17 +1,17 @@
-package com.codecool.models;
+package com.codecool.controllers;
 
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
-public class AdminMenu {
-    private static AdminMenu instance;
+public class AdminController {
+    private static AdminController instance;
     private String[] menu = {"1.Show students list", "2.Show mentors list" , "3.Add new mentor", "4.Remove mentor", "5.Edit mentors data", "0.Exit"};
 
-    public static AdminMenu getInstance() {
+    public static AdminController getInstance() {
         if (instance == null) {
-            synchronized(MentorMenu.class) {
+            synchronized(MentorController.class) {
                 if (instance == null) {
-                    instance = new AdminMenu();
+                    instance = new AdminController();
                 }
             }
         }

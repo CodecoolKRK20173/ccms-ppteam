@@ -1,19 +1,19 @@
-package com.codecool.models;
+package com.codecool.controllers;
 
 import com.codecool.user.Student;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
-public class StudentMenu {
-    private static StudentMenu instance;
+public class StudentController {
+    private static StudentController instance;
     private Student student;
     private String[] menu = {"1.Show grades" , "2.Submit assignment", "0. Exit"};
 
-    public static StudentMenu getInstance() {
+    public static StudentController getInstance() {
         if (instance == null) {
-            synchronized(MentorMenu.class) {
+            synchronized(MentorController.class) {
                 if (instance == null) {
-                    instance = new StudentMenu();
+                    instance = new StudentController();
                 }
             }
         }
