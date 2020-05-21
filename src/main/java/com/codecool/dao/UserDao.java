@@ -90,7 +90,7 @@ public class UserDao extends Dao {
 
     public void addMentor(String name, String surname, String email, String password) throws SQLException {
         connect();
-        statement.executeUpdate("INSERT INTO UserDetails (name, surname, email, password, userType, ) " +
+        statement.executeUpdate("INSERT INTO UserDetails (name, surname, email, password, userType) " +
                 "VALUES('" + name + "', '" + surname + "', '" + email + "', '" + password + "', mentor);" +
                 "INSERT INTO Mentors (userDetailsId) SELECT userDetailsId WHERE email LIKE '" + email + "';");
         statement.close();
@@ -130,6 +130,19 @@ public class UserDao extends Dao {
                                         "WHERE userDetailsId = '" + id + "';");
             statement.close();
             connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addAttendance(int studentId, String status, String date) {
+        connect();
+        try {
+            statement.executeUpdate("INSERT INTO Attendance (studentID, status, date) " +
+                    "VALUES('" + studentId + "', '" + status + "', '" + date + "');");
+            statement.close();
+            connection.close();
+            initializeUsers();
         } catch (SQLException e) {
             e.printStackTrace();
         }
