@@ -50,15 +50,5 @@ public class View {
         String[][] obj = allObj.toArray(new String[][] {});
         System.out.println(FlipTableConverters.fromObjects(headers, obj));
     }
-    public void showUsersTable(List<User> users) {
-        String[] headers = {"Id","Password", "Name", "Email", "Surname", "Type"};
-        ArrayList<String[]> allObj = new ArrayList<>();
-        for (int i = 0; i < users.size(); i++) {
-                String[] object = {Integer.toString(users.get(i).getId()),users.get(i).getName(),users.get(i).getSurname()
-                        ,users.get(i).getEmail(),users.get(i).getPassword(),users.get(i).getType().toString()};
-                allObj.add(object);
-        }
-        String[][] obj = allObj.toArray(new String[][] {});
-        System.out.println(FlipTableConverters.fromObjects(headers, obj));
-    }
+
 }
