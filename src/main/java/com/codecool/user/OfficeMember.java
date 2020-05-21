@@ -9,9 +9,4 @@ public class OfficeMember extends Employee {
     public OfficeMember(int id, String name, String surname, String email, String password, UserTypes type) {
         super(id, name, surname, email, password, type);
     }
-
-    @Override
-    public List<User> getStudentsList() {
-        return UserDao.getInstance().getUsersByUserType(UserTypes.STUDENT);
-    }
 }
