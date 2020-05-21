@@ -87,7 +87,7 @@ public class MentorController {
 
     private void checkAttendance() {
         for (User student : UsersContainer.getInstance().getStudentsList()) {
-            View.getInstance().print(student.toString());
+            View.getInstance().showUsersTable(UsersContainer.getInstance().getStudentsList());//view
             String attendanceType = "absent";
             boolean isRunning = true;
             while (isRunning) {
@@ -102,7 +102,7 @@ public class MentorController {
                         isRunning = false;
                         break;
                     default:
-                        View.getInstance().print("Wrong number, try again.");
+                        View.getInstance().wrongData();
                 }
             }
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
