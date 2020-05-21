@@ -2,11 +2,15 @@ package com.codecool.controllers;
 
 import com.codecool.containers.UsersContainer;
 import com.codecool.dao.UserDao;
+import com.codecool.models.AttendanceTypes;
 import com.codecool.models.UserTypes;
 import com.codecool.user.User;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class MentorController {
@@ -38,6 +42,7 @@ public class MentorController {
                 case 3:
                     break;
                 case 4:
+                    checkAttendance();
                     break;
                 case 5:
                     addStudentToClassroom();
@@ -78,5 +83,31 @@ public class MentorController {
         String columnToEdit = InputProvider.getString("Enter column to edit: ");
         String newParamData = InputProvider.getString("Enter new data: ");
         UserDao.getInstance().editUserDataById(studentId, "UserDetails", columnToEdit, newParamData);
+    }
+
+    private void checkAttendance() {
+        for (User student : UsersContainer.getInstance().getStudentsList()) {
+            View.getInstance().print(student.toString());
+            String attendanceType = "absent";
+            boolean isRunning = true;
+            while (isRunning) {
+                switch (InputProvider.getInt("Enter student's attendance:\n(1) present\n (2) absent\n(0) exit")) {
+                    case 1:
+                        attendanceType = "present";
+                        break;
+                    case 2:
+                        attendanceType = "absent";
+                        break;
+                    case 0:
+                        isRunning = false;
+                        break;
+                    default:
+                        View.getInstance().print("Wrong number, try again.");
+                }
+            }
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDateTime today = LocalDateTime.now();
+            UserDao.getInstance().addAttendance(student.getId(), attendanceType, dateFormat.format(today));
+        }
     }
 }
