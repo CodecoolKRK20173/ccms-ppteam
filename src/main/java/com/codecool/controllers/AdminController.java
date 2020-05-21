@@ -24,7 +24,7 @@ public class AdminController {
         return instance;
     }
 
-    public void menu() throws SQLException {
+    public void menu() {
         boolean isRunning = true;
         while (isRunning){
             View.getInstance().showMenu(menu);
@@ -36,10 +36,10 @@ public class AdminController {
                     getMentorsList();//view
                     break;
                 case 3:
-                    addMentor();
+//                    addMentor();
                     break;
                 case 4:
-                    removeMentor();
+//                    removeMentor();
                     break;
                 case 5:
                     editMentorsData();
