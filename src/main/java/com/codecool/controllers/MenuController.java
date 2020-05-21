@@ -1,6 +1,7 @@
-package com.codecool.models;
+package com.codecool.controllers;
 
 import com.codecool.dao.UserDao;
+import com.codecool.models.*;
 import com.codecool.user.User;
 import com.codecool.utilities.*;
 
@@ -40,16 +41,16 @@ public class MenuController {
         View.getInstance().clearScreen();
         switch (type){
             case MENTOR:
-                MentorMenu.getInstance().menu();
+                MentorController.getInstance().menu();
                 break;
             case ADMIN:
-                AdminMenu.getInstance().menu();
+                AdminController.getInstance().menu();
                 break;
             case OFFICE_MEMBER:
-                OfficeMemberMenu.getInstance().menu();
+                OfficeMemberController.getInstance().menu();
                 break;
             case STUDENT:
-                StudentMenu.getInstance().menu();
+                StudentController.getInstance().menu();
                 break;
             case NONE:
                 View.getInstance().wrongData();

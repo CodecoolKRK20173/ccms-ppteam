@@ -1,24 +1,23 @@
-package com.codecool.models;
+package com.codecool.controllers;
 
 import com.codecool.containers.UsersContainer;
-import com.codecool.dao.UserDao;
 import com.codecool.user.OfficeMember;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
-public class OfficeMemberMenu {
-    private static OfficeMemberMenu instance;
+public class OfficeMemberController {
+    private static OfficeMemberController instance;
     private OfficeMember officeMember;
     private final String[] menu = {"1.Show students list", "0.Exit"};
     UsersContainer usersContainer = new UsersContainer();
 
-    private OfficeMemberMenu(){}
+    private OfficeMemberController(){}
 
-    public static OfficeMemberMenu getInstance() {
+    public static OfficeMemberController getInstance() {
         if (instance == null) {
-            synchronized(OfficeMemberMenu.class) {
+            synchronized(OfficeMemberController.class) {
                 if (instance == null) {
-                    instance = new OfficeMemberMenu();
+                    instance = new OfficeMemberController();
                 }
             }
         }

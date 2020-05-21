@@ -9,7 +9,7 @@ public abstract class Dao {
     protected Connection connection;
     protected Statement statement;
 
-    public static final String DB_NAME = "src/main/java/com/codecool/recources/ccms.db";
+    public static final String DB_NAME = "src/main/java/resources/ccms.db";
     public static final String CONNECTION_STRING = "jdbc:sqlite:" + DB_NAME;
     //TODO zastanowic sie nad abstrakcyjnymi metodami
 
