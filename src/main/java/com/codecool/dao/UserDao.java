@@ -1,9 +1,9 @@
 package com.codecool.dao;
 
+import com.codecool.containers.UsersContainer;
 import com.codecool.models.UserTypes;
 import com.codecool.user.*;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,38 +13,51 @@ import java.util.NoSuchElementException;
 import static com.codecool.models.UserTypes.*;
 
 public class UserDao extends Dao {
+    private static UserDao instance;
+    private UsersContainer usersContainer = new UsersContainer();
 
-  public User getUserByEmailandPassword(String email, String password) {
-      List<User> users = getUsers();
-      connect();
-      int id;
-      try {
-          ResultSet results = statement.executeQuery ("SELECT * FROM UserDetails WHERE email = '"+
-                  email +"' and password = '"+ password +"';");
-          if (results != null) {
-              id = results.getInt("UserDetailsID")-1;
-              results.close();
-              statement.close();
-              connection.close();
-              return users.get(id);
-          }
-          results.close();
-          statement.close();
-          connection.close();
-      } catch (SQLException e) {}
-      throw new NoSuchElementException("There isn't user with specified data in database");
+    public static UserDao getInstance() {
+        if (instance == null) {
+            synchronized(UserDao.class) {
+                if (instance == null) {
+                    instance = new UserDao();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public User getUserByEmailAndPassword(String email, String password) {
+        List<User> users = getUsers();
+        connect();
+        int id;
+        try {
+            ResultSet results = statement.executeQuery ("SELECT * FROM UserDetails WHERE email = '"+
+                    email +"' and password = '"+ password +"';");
+            if (results != null) {
+                id = results.getInt("UserDetailsID")-1;
+                results.close();
+                statement.close();
+                connection.close();
+                return users.get(id);
+            }
+            results.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {}
+        throw new NoSuchElementException("There isn't user with specified data in database");
     }
 
     private List<User> getUsers() {
         ArrayList<User> users = new ArrayList<>();
-        users.addAll(getGivenTypeOfUsersList(STUDENT));
-        users.addAll(getGivenTypeOfUsersList(MENTOR));
-        users.addAll(getGivenTypeOfUsersList(OFFICE_MEMBER));
-        users.addAll(getGivenTypeOfUsersList(ADMIN));
+        users.addAll(getUsersByUserType(STUDENT));
+        users.addAll(getUsersByUserType(MENTOR));
+        users.addAll(getUsersByUserType(OFFICE_MEMBER));
+        users.addAll(getUsersByUserType(ADMIN));
         return users;
     }
 
-    public List<User> getGivenTypeOfUsersList(UserTypes userType) {
+    public List<User> getUsersByUserType(UserTypes userType) {
         List<User> users = new ArrayList<>();
         User user;
         connect();
@@ -52,7 +65,6 @@ public class UserDao extends Dao {
             ResultSet results;
             if (userType.equals(STUDENT)) {
                 results = statement.executeQuery("SELECT UserDetails.*, Students.classroom FROM UserDetails" +
-
                         "                        JOIN Students ON userDetails.userDetailsID = Students.userDetailsID" +
                         "                        WHERE userType LIKE 'student';");
             } else {
@@ -79,7 +91,7 @@ public class UserDao extends Dao {
                         user = new Admin(id, name, surname, email, password, ADMIN);
                         users.add(user);
                         break;
-                    case "office member":
+                    case "office":
                         user = new OfficeMember(id, name, surname, email, password, OFFICE_MEMBER);
                         users.add(user);
                         break;
