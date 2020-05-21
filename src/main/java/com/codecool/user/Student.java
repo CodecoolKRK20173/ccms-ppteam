@@ -34,6 +34,6 @@ public class Student extends User{
 
     @Override
     public String toString() { // dorzucic classroma
-        return String.format("%d %s %s %s %s %s %s", this.getId(), this.getName(), this.getSurname(), this.getEmail(), this.getPassword(), this.getType());
+        return String.format("%d %s %s %s %s %s", this.getId(), this.getName(), this.getSurname(), this.getEmail(), this.getPassword(), this.getType().toString());
     }
 }
