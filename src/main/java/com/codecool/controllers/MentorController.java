@@ -35,7 +35,7 @@ public class MentorController {
             View.getInstance().showMenu(menu);
             switch (InputProvider.getInt("SELECT OPTION: ")){
                 case 1:
-                    getStudentsList();//view
+                    View.getInstance().showUsersTable(UsersContainer.getInstance().getStudentsList());//view
                     break;
                 case 2:
                     break;
