@@ -28,10 +28,6 @@ public class UserDao extends Dao {
 
     public void initializeUsers() {
         ArrayList<User> users = new ArrayList<>();
-        UsersContainer.getInstance().setStudentsList(getUsersByUserType(STUDENT));
-        UsersContainer.getInstance().setMentorsList(getUsersByUserType(MENTOR));
-        UsersContainer.getInstance().setOfficeMembersList(getUsersByUserType(OFFICE_MEMBER));
-        UsersContainer.getInstance().setAdminsList(getUsersByUserType(ADMIN));
         users.addAll(getUsersByUserType(STUDENT));
         users.addAll(getUsersByUserType(MENTOR));
         users.addAll(getUsersByUserType(OFFICE_MEMBER));

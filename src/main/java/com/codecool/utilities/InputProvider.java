@@ -18,6 +18,7 @@ public class InputProvider {
     }
 
     public static int getInt(String prompt) {
+        System.out.println(prompt);
         while (!scanner.hasNextInt()) {
             System.out.println("Input is not a number.");
             scanner.nextLine();

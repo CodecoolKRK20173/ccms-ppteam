@@ -31,10 +31,10 @@ public class AdminController {
             View.getInstance().showMenu(menu);
             switch (InputProvider.getInt("SELECT OPTION: ")){
                 case 1:
-                    View.getInstance().showUsersTable(UsersContainer.getInstance().getStudentsList());
+                    View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT));
                     break;
                 case 2:
-                    View.getInstance().showUsersTable(UsersContainer.getInstance().getMentorsList());
+                    View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.MENTOR));
                     break;
                 case 3:
 //                    addMentor();

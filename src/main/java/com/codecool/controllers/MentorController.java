@@ -2,15 +2,14 @@ package com.codecool.controllers;
 
 import com.codecool.containers.UsersContainer;
 import com.codecool.dao.UserDao;
-import com.codecool.models.AttendanceTypes;
 import com.codecool.models.UserTypes;
 import com.codecool.user.User;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MentorController {
@@ -35,7 +34,7 @@ public class MentorController {
             View.getInstance().showMenu(menu);
             switch (InputProvider.getInt("SELECT OPTION: ")){
                 case 1:
-                    View.getInstance().showUsersTable(UsersContainer.getInstance().getStudentsList());//view
+                    View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT));
                     break;
                 case 2:
                     break;
@@ -63,10 +62,6 @@ public class MentorController {
         }
     }
 
-    private List<User> getStudentsList() {
-        return UserDao.getInstance().getUsersByUserType(UserTypes.STUDENT);
-    }
-
     private void addStudentToClassroom() {
         int studentId = InputProvider.getInt("Enter student id: ");
         String newClassroom = InputProvider.getString("Enter new classroom name: ");
@@ -86,12 +81,12 @@ public class MentorController {
     }
 
     private void checkAttendance() {
-        for (User student : UsersContainer.getInstance().getStudentsList()) {
-            View.getInstance().showUsersTable(UsersContainer.getInstance().getStudentsList());//view
+        for (User student : UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT)) {
+            List<User> user = new ArrayList<>();
+            user.add(student);
+            View.getInstance().showUsersTable(user);
             String attendanceType = "absent";
-            boolean isRunning = true;
-            while (isRunning) {
-                switch (InputProvider.getInt("Enter student's attendance:\n(1) present\n (2) absent\n(0) exit")) {
+                switch (InputProvider.getInt("Enter student's attendance:\n(1) Present\n(2) Absent\n(0) Skip\nChoice: ")) {
                     case 1:
                         attendanceType = "present";
                         break;
@@ -99,11 +94,9 @@ public class MentorController {
                         attendanceType = "absent";
                         break;
                     case 0:
-                        isRunning = false;
                         break;
                     default:
                         View.getInstance().wrongData();
-                }
             }
             DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDateTime today = LocalDateTime.now();

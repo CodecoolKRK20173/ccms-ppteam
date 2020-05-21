@@ -1,7 +1,5 @@
 package com.codecool.user;
 
-import com.codecool.dao.UserDao;
-import java.util.List;
 import com.codecool.models.UserTypes;
 
 public class Mentor extends Employee {

@@ -40,7 +40,7 @@ public class View {
     }
 
     public void showUsersTable(List<User> users) {
-        String[] headers = {"Id","Password", "Name", "Email", "Surname", "Type"};
+        String[] headers = {"Id", "Name", "Surname", "Email", "Password", "Type"};
         ArrayList<String[]> allObj = new ArrayList<>();
         for (int i = 0; i < users.size(); i++) {
                 String[] object = {Integer.toString(users.get(i).getId()),users.get(i).getName(),users.get(i).getSurname()

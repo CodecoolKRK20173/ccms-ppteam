@@ -1,6 +1,7 @@
 package com.codecool.controllers;
 
 import com.codecool.containers.UsersContainer;
+import com.codecool.models.UserTypes;
 import com.codecool.user.OfficeMember;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
@@ -30,7 +31,7 @@ public class OfficeMemberController {
             View.getInstance().showMenu(menu);
             switch (InputProvider.getInt("SELECT OPTION: ")){
                 case 1:
-                    View.getInstance().showUsersTable(UsersContainer.getInstance().getStudentsList());
+                    View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT));
                     break;
                 case 0:
                     isRunning = false;
