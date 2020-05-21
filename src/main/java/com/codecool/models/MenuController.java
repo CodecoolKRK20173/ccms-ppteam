@@ -6,13 +6,14 @@ import com.codecool.utilities.*;
 
 import static com.codecool.models.UserTypes.*;
 
-public class MenuHandler {
+public class MenuController {
     public boolean isRunning;
     private final String[] menu = {"Welcome to CcMS" ,"1. Log in", "0. Exit"};
 
 
-    public MenuHandler() {
+    public MenuController() {
         isRunning = true;
+//        UserDao.getInstance().initializeUsers();
     }
 
     public void mainMenu() {
@@ -24,8 +25,6 @@ public class MenuHandler {
             case 0:
                 isRunning = false;
                 break;
-            default:
-                System.out.println("jeszcze raz");
         }
     }
 
@@ -35,7 +34,7 @@ public class MenuHandler {
         UserDao dao = new UserDao();
         UserTypes type = NONE;
         try {
-            User user = dao.getUserByEmailandPassword(email, password);
+            User user = dao.getUserByEmailAndPassword(email, password);
             type = user.getType();
         }catch (Exception e){}
         View.getInstance().clearScreen();
