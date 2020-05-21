@@ -18,9 +18,13 @@ public class InputProvider {
     }
 
     public static int getInt(String prompt) {
-        System.out.print(prompt);
+        while (!scanner.hasNextInt()) {
+            System.out.println("Input is not a number.");
+            scanner.nextLine();
+        }
         return scanner.nextInt();
     }
+
 
     public static String getString(String prompt) {
         System.out.print(prompt);
@@ -33,6 +37,10 @@ public class InputProvider {
             email = InputProvider.getString("Enter Email: ");
         }while (!EmailValidation.isValidEmail(email));
         return email;
+    }
+
+    public static String[] dataProvider() {
+        return new String[]{getEmail(), getString("Enter Password: ")};
     }
 }
 

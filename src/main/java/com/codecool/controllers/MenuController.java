@@ -1,5 +1,6 @@
 package com.codecool.controllers;
 
+import com.codecool.containers.UsersContainer;
 import com.codecool.dao.UserDao;
 import com.codecool.models.*;
 import com.codecool.user.User;
@@ -14,7 +15,7 @@ public class MenuController {
 
     public MenuController() {
         isRunning = true;
-//        UserDao.getInstance().initializeUsers();
+        UserDao.getInstance().initializeUsers();
     }
 
     public void mainMenu() {
@@ -30,16 +31,8 @@ public class MenuController {
     }
 
     private void login() {
-        String email = InputProvider.getEmail();
-        String password = InputProvider.getString("Enter Password: ");
-        UserDao dao = new UserDao();
-        UserTypes type = NONE;
-        try {
-            User user = dao.getUserByEmailAndPassword(email, password);
-            type = user.getType();
-        }catch (Exception e){}
         View.getInstance().clearScreen();
-        switch (type){
+        switch (getUserType(InputProvider.dataProvider())){
             case MENTOR:
                 MentorController.getInstance().menu();
                 break;
@@ -55,6 +48,16 @@ public class MenuController {
             case NONE:
                 View.getInstance().wrongData();
         }
+    }
+
+    private UserTypes getUserType(String[] data) {
+        UserTypes type = NONE;
+        try {
+            User user = UsersContainer.getInstance().getUserByEmailAndPassword(data[0], data[1]);
+            type = user.getType();
+        }catch (Exception e){}
+        return type;
+
     }
 
 }
