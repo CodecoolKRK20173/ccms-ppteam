@@ -1,5 +1,6 @@
 package com.codecool.controllers;
 
+import com.codecool.containers.UsersContainer;
 import com.codecool.dao.UserDao;
 import com.codecool.models.UserTypes;
 import com.codecool.user.User;
@@ -30,7 +31,7 @@ public class MentorController {
             View.getInstance().showMenu(menu);
             switch (InputProvider.getInt("SELECT OPTION: ")){
                 case 1:
-                    getStudentsList();//view
+                    View.getInstance().showUsersTable(UsersContainer.getInstance().getStudentsList());//view
                     break;
                 case 2:
                     break;

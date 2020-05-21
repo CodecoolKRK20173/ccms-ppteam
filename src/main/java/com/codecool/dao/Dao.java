@@ -1,9 +1,6 @@
 package com.codecool.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public abstract class Dao {
     protected Connection connection;
@@ -24,4 +21,5 @@ public abstract class Dao {
             System.out.println("Couldn't connect to database" + e.getMessage());
         }
     }
+
 }
