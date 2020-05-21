@@ -3,7 +3,7 @@ package com.codecool.models;
 public enum UserTypes {
     ADMIN("admin"),
     STUDENT("student"),
-    OFFICE_MEMBER("office member"),
+    OFFICE_MEMBER("office"),
     MENTOR("mentor"),
     NONE("none");
 
