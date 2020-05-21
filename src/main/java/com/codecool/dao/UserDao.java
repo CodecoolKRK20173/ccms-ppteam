@@ -14,7 +14,6 @@ import static com.codecool.models.UserTypes.*;
 
 public class UserDao extends Dao {
     private static UserDao instance;
-    private UsersContainer usersContainer = new UsersContainer();
 
     public static UserDao getInstance() {
         if (instance == null) {
@@ -27,34 +26,17 @@ public class UserDao extends Dao {
         return instance;
     }
 
-    public User getUserByEmailAndPassword(String email, String password) {
-        List<User> users = getUsers();
-        connect();
-        int id;
-        try {
-            ResultSet results = statement.executeQuery ("SELECT * FROM UserDetails WHERE email = '"+
-                    email +"' and password = '"+ password +"';");
-            if (results != null) {
-                id = results.getInt("UserDetailsID")-1;
-                results.close();
-                statement.close();
-                connection.close();
-                return users.get(id);
-            }
-            results.close();
-            statement.close();
-            connection.close();
-        } catch (SQLException e) {}
-        throw new NoSuchElementException("There isn't user with specified data in database");
-    }
-
-    private List<User> getUsers() {
+    public void initializeUsers() {
         ArrayList<User> users = new ArrayList<>();
+        UsersContainer.getInstance().setStudentsList(getUsersByUserType(STUDENT));
+        UsersContainer.getInstance().setMentorsList(getUsersByUserType(MENTOR));
+        UsersContainer.getInstance().setOfficeMembersList(getUsersByUserType(OFFICE_MEMBER));
+        UsersContainer.getInstance().setAdminsList(getUsersByUserType(ADMIN));
         users.addAll(getUsersByUserType(STUDENT));
         users.addAll(getUsersByUserType(MENTOR));
         users.addAll(getUsersByUserType(OFFICE_MEMBER));
         users.addAll(getUsersByUserType(ADMIN));
-        return users;
+        UsersContainer.getInstance().setUserList(users);
     }
 
     public List<User> getUsersByUserType(UserTypes userType) {
