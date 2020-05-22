@@ -19,6 +19,7 @@ public class MenuController {
     }
 
     public void mainMenu() {
+        View.getInstance().clearScreen();
         View.getInstance().showMenu(menu);
         switch (InputProvider.getInstance().getInt("SELECT OPTION: ")){
             case 1:
@@ -31,8 +32,7 @@ public class MenuController {
     }
 
     private void login() {
-        View.getInstance().clearScreen();
-        String[] data = getData();
+        String[] data = getUserData();
         switch (getUserType(data)){
             case MENTOR:
                 MentorController.getInstance().menu();
@@ -51,7 +51,7 @@ public class MenuController {
         }
     }
 
-    private String[] getData() {
+    private String[] getUserData() {
         return InputProvider.dataProvider();
     }
 

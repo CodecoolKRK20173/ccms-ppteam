@@ -18,18 +18,21 @@ public class InputProvider {
     }
 
     public static int getInt(String prompt) {
-        System.out.println(prompt);
+        System.out.print(prompt);
         while (!scanner.hasNextInt()) {
             System.out.println("Input is not a number.");
             scanner.nextLine();
         }
+        View.getInstance().clearScreen();
         return scanner.nextInt();
     }
 
 
     public static String getString(String prompt) {
         System.out.print(prompt);
-        return scanner.next();
+        String text = scanner.next();
+        View.getInstance().clearScreen();
+        return text;
     }
 
     public static String getEmail() {
@@ -37,6 +40,7 @@ public class InputProvider {
         do {
             email = InputProvider.getString("Enter Email: ");
         }while (!EmailValidation.isValidEmail(email));
+        View.getInstance().clearScreen();
         return email;
     }
 
