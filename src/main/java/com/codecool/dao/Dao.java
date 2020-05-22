@@ -8,7 +8,6 @@ public abstract class Dao {
 
     public static final String DB_NAME = "src/main/java/resources/ccms.db";
     public static final String CONNECTION_STRING = "jdbc:sqlite:" + DB_NAME;
-    //TODO zastanowic sie nad abstrakcyjnymi metodami
 
     public void connect() {
         try {

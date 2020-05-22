@@ -37,10 +37,10 @@ public class AdminController {
                     View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.MENTOR));
                     break;
                 case 3:
-//                    addMentor();
+                    addMentor();
                     break;
                 case 4:
-//                    removeMentor();
+                    removeMentor();
                     break;
                 case 5:
                     editMentorsData();
@@ -63,17 +63,25 @@ public class AdminController {
         return UserDao.getInstance().getUsersByUserType(UserTypes.MENTOR);
     }
 
-    private void addMentor() throws SQLException {
+    private void addMentor(){
         String name = InputProvider.getString("Enter name: ");
         String surname = InputProvider.getString("Enter surname: ");
-        String email = InputProvider.getString("Enter email: ");
-        String password = InputProvider.getString("Enter password");
-        UserDao.getInstance().addMentor(name, surname, email, password);
+        String email = InputProvider.getEmail();
+        String password = InputProvider.getString("Enter password: ");
+        try {
+            UserDao.getInstance().addMentor(name, surname, email, password);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
-    private void removeMentor() throws SQLException {
+    private void removeMentor() {
         int mentorId = InputProvider.getInt("Enter mentors id: ");
-        UserDao.getInstance().removeUserById(mentorId);
+        try {
+            UserDao.getInstance().removeUserById(mentorId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     private void editMentorsData() {

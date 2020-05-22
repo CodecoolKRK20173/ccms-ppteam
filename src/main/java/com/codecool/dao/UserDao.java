@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static com.codecool.models.UserTypes.*;
 
@@ -87,35 +86,33 @@ public class UserDao extends Dao {
     public void addMentor(String name, String surname, String email, String password) throws SQLException {
         connect();
         statement.executeUpdate("INSERT INTO UserDetails (name, surname, email, password, userType) " +
-                "VALUES('" + name + "', '" + surname + "', '" + email + "', '" + password + "', mentor);" +
-                "INSERT INTO Mentors (userDetailsId) SELECT userDetailsId WHERE email LIKE '" + email + "';");
+                "VALUES('" + name + "', '" + surname + "', '" + email + "', '" + password + "', 'mentor');" +
+                "INSERT INTO Mentors (userDetailsID) SELECT userDetailsID FROM UserDetails WHERE email LIKE '" + email + "';");
         statement.close();
         connection.close();
+        initializeUsers();
     }
 
-//    public void removeUser(String name, String userType) throws SQLException {//ewentualnie dolozyc surname dla pewnosci
-//        connect();
-//        if (userType.equals("student")) {
-//            statement.executeUpdate("DELETE FROM User WHERE name ='" + name + "' AND type = mentor;");
-//        }
-//        statement.executeUpdate("DELETE FROM User WHERE name ='" + name + "' AND type = mentor;");
-//        statement.close();
-//        connection.close();
-//    }
+    public ResultSet getAttendanceResultSet(int id) throws SQLException {
+        connect();
+        ResultSet result = statement.executeQuery("SELECT UserDetails.name, UserDetails.surname, Attendance.status, Attendance.date FROM UserDetails\n" +
+                "                    JOIN Attendance ON userDetails.userDetailsID = Attendance.studentID\n" +
+                "                    WHERE UserDetails.userDetailsID LIKE "+ id +";");
+        return result;
+    }
 
     public void removeUserById(int id) throws SQLException {
         connect();
         statement.executeUpdate("begin;" +
-                                    "DELETE FROM UserDetails WHERE id ='" + id + "';" +
-                                    "DELETE FROM Students WHERE id ='" + id + "';" +
-                                    "DELETE FROM Attendance WHERE id ='" + id + "';" +
-                                    "DELETE FROM Assignments WHERE id ='" + id + "';" +
-                                    "DELETE FROM Admins WHERE id ='" + id + "';" +
-                                    "DELETE FROM Mentors WHERE id ='" + id + "';" +
-                                    "DELETE FROM OfficeMembers WHERE id ='" + id + "';" +
+                                    "DELETE FROM UserDetails WHERE userDetailsID ='" + id + "';" +
+                                    "DELETE FROM Students WHERE userDetailsID ='" + id + "';" +
+                                    "DELETE FROM Admins WHERE userDetailsID ='" + id + "';" +
+                                    "DELETE FROM Mentors WHERE userDetailsID ='" + id + "';" +
+                                    "DELETE FROM OfficeMembers WHERE userDetailsID ='" + id + "';" +
                                     "commit;");
         statement.close();
         connection.close();
+        initializeUsers();
     }
 
     public void editUserDataById(int id, String table, String paramToEdit, String newData) {
@@ -123,12 +120,13 @@ public class UserDao extends Dao {
         try {
             statement.executeUpdate("Update '" + table +
                                         "' SET '" + paramToEdit + "' = '" + newData + "' " +
-                                        "WHERE userDetailsId = '" + id + "';");
+                                        "WHERE userDetailsID = '" + id + "';");
             statement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        initializeUsers();
     }
 
     public void addAttendance(int studentId, String status, String date) {
@@ -142,5 +140,6 @@ public class UserDao extends Dao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        initializeUsers();
     }
 }

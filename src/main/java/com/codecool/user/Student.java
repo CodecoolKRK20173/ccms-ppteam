@@ -24,16 +24,12 @@ public class Student extends User{
         this.grades = grades;
     }
 
-//    public Classroom getClassroom() {
-//        return classroom;
-//    }
-//
-//    public void setClassroom(Classroom classroom) {
-//        this.classroom = classroom;
-//    }
+    public String getClassroom() { return classroom; }
+
+    public void setClassroom(String classroom) { this.classroom = classroom; }
 
     @Override
-    public String toString() { // dorzucic classroma
-        return String.format("%d %s %s %s %s %s", this.getId(), this.getName(), this.getSurname(), this.getEmail(), this.getPassword(), this.getType().toString());
+    public String toString() {
+        return String.format("%d %s %s %s %s %s %s", this.getId(), this.getName(), this.getSurname(), this.getEmail(), this.getPassword(), this.getType().toString(), this.getClassroom());
     }
 }

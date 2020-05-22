@@ -1,19 +1,24 @@
 package com.codecool.controllers;
 
 import com.codecool.user.Student;
+import com.codecool.user.User;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
 public class StudentController {
     private static StudentController instance;
-    private Student student;
-    private String[] menu = {"1.Show grades" , "2.Submit assignment", "0. Exit"};
+    private User student;
+    private String[] menu = {"1.Show grades" , "2.Submit assignment","3.Check your attendance", "0. Exit"};
 
-    public static StudentController getInstance() {
+    StudentController(User student){
+        this.student = student;
+    }
+
+    public static StudentController getInstance(User student) {
         if (instance == null) {
             synchronized(MentorController.class) {
                 if (instance == null) {
-                    instance = new StudentController();
+                    instance = new StudentController(student);
                 }
             }
         }
@@ -28,6 +33,9 @@ public class StudentController {
                 case 1:
                     break;
                 case 2:
+                    break;
+                case 3:
+                    View.getInstance().showAttendanceTable(this.student.getId());
                     break;
                 case 0:
                     isRunning = false;

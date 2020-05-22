@@ -71,4 +71,6 @@ public abstract class User {
     public String toString() {
         return String.format("%d %s %s %s %s %s", id, name, surname, email, password, userType.toString().toString());
     }
+
+    public abstract String getClassroom();
 }

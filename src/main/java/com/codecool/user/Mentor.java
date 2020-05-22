@@ -7,4 +7,9 @@ public class Mentor extends Employee {
     public Mentor(int id, String name, String surname, String email, String password, UserTypes type) {
         super(id, name, surname, email, password, type);
     }
+
+    @Override
+    public String getClassroom() {
+        return null;
+    }
 }

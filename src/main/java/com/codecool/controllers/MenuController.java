@@ -32,7 +32,8 @@ public class MenuController {
 
     private void login() {
         View.getInstance().clearScreen();
-        switch (getUserType(InputProvider.dataProvider())){
+        String[] data = getData();
+        switch (getUserType(data)){
             case MENTOR:
                 MentorController.getInstance().menu();
                 break;
@@ -43,17 +44,25 @@ public class MenuController {
                 OfficeMemberController.getInstance().menu();
                 break;
             case STUDENT:
-                StudentController.getInstance().menu();
+                StudentController.getInstance(getUser(data)).menu();
                 break;
             case NONE:
                 View.getInstance().wrongData();
         }
     }
 
+    private String[] getData() {
+        return InputProvider.dataProvider();
+    }
+
+    private User getUser(String[] data) {
+        return UsersContainer.getInstance().getUserByEmailAndPassword(data[0], data[1]);
+    }
+
     private UserTypes getUserType(String[] data) {
         UserTypes type = NONE;
         try {
-            User user = UsersContainer.getInstance().getUserByEmailAndPassword(data[0], data[1]);
+            User user = getUser(data);
             type = user.getType();
         }catch (Exception e){}
         return type;
