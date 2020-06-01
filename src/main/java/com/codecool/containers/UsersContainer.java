@@ -4,6 +4,7 @@ import com.codecool.models.UserTypes;
 import com.codecool.user.*;
 import com.codecool.utilities.InputProvider;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -43,5 +44,50 @@ public class UsersContainer {
             }
         }
         throw new NoSuchElementException("There isn't user with specified data in database");
+    }
+
+    public void addUser(User user) {
+        usersList.add(user);
+    }
+
+    public void removeUserById(int id) {
+        usersList.removeIf(user -> user.getId() == id);
+    }
+
+    public void editUserDataById(int id, String columnToEdit, String newParamData) {
+//        usersList.stream().filter(user -> user.getId() == id).forEach(user -> user.);
+//        ClassWithStuff myStuff = new ClassWithStuff();
+//        Field[] fields = myStuff.getClass().getDeclaredFields();
+        for (User user : usersList) {
+            if (user.getId() == id) {
+                for (Field field : UsersContainer.getInstance().getClass().getFields()) {
+                    if (field.getName().equals(columnToEdit)) {
+                        try {
+                            field.set(user, newParamData);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public boolean isUserOccursById(int id) {
+        for (User user : usersList) {
+            if (user.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isUserGivenType(UserTypes userType) {
+        for (User user : usersList) {
+            if (user.getType().equals(userType)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
