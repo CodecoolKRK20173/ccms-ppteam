@@ -3,6 +3,7 @@ package com.codecool.dao;
 import com.codecool.containers.UsersContainer;
 import com.codecool.models.UserTypes;
 import com.codecool.user.*;
+import com.codecool.utilities.View;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +12,7 @@ import java.util.List;
 
 import static com.codecool.models.UserTypes.*;
 
-public class UserDao extends Dao {
+public class UserDao extends Dao implements UserDaoInterface {
     private static UserDao instance;
 
     public static UserDao getInstance() {
@@ -34,6 +35,7 @@ public class UserDao extends Dao {
         UsersContainer.getInstance().setUserList(users);
     }
 
+    @Override
     public List<User> getUsersByUserType(UserTypes userType) {
         List<User> users = new ArrayList<>();
         User user;
@@ -83,38 +85,71 @@ public class UserDao extends Dao {
         return users;
     }
 
-    public void addMentor(String name, String surname, String email, String password) throws SQLException {
+    @Override
+    public void addUser(String name, String surname, String email, String password, UserTypes userType) {
         connect();
-        statement.executeUpdate("INSERT INTO UserDetails (name, surname, email, password, userType) " +
-                "VALUES('" + name + "', '" + surname + "', '" + email + "', '" + password + "', 'mentor');" +
-                "INSERT INTO Mentors (userDetailsID) SELECT userDetailsID FROM UserDetails WHERE email LIKE '" + email + "';");
-        statement.close();
-        connection.close();
+        String connectedTable = "";
+        switch (userType) {
+            case STUDENT:
+                connectedTable = "Students";
+                break;
+            case ADMIN:
+                connectedTable = "Admins";
+                break;
+            case MENTOR:
+                connectedTable = "Mentors";
+                break;
+            case OFFICE_MEMBER:
+                connectedTable = "OfficeMembers";
+                break;
+            default:
+                View.getInstance().print("Incorrect user type.");
+        }
+        try {
+            statement.executeUpdate("INSERT INTO UserDetails (name, surname, email, password, userType) " +
+                    "VALUES('" + name + "', '" + surname + "', '" + email + "', '" + password + "', '" + userType + "');" +
+                    "INSERT INTO " + connectedTable + " (userDetailsID) SELECT userDetailsID FROM UserDetails WHERE email LIKE '" + email + "';");
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         initializeUsers();
     }
 
-    public ResultSet getAttendanceResultSet(int id) throws SQLException {
+    public ResultSet getAttendanceResultSet(int id) {
         connect();
-        ResultSet result = statement.executeQuery("SELECT UserDetails.name, UserDetails.surname, Attendance.status, Attendance.date FROM UserDetails\n" +
-                "                    JOIN Attendance ON userDetails.userDetailsID = Attendance.studentID\n" +
-                "                    WHERE UserDetails.userDetailsID LIKE "+ id +";");
+        ResultSet result = null;
+        try {
+            result = statement.executeQuery("SELECT UserDetails.name, UserDetails.surname, Attendance.status, Attendance.date FROM UserDetails\n" +
+                    "                    JOIN Attendance ON userDetails.userDetailsID = Attendance.studentID\n" +
+                    "                    WHERE UserDetails.userDetailsID LIKE "+ id +";");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
-    public void removeUserById(int id) throws SQLException {
+    @Override
+    public void removeUserById(int id) {
         connect();
-        statement.executeUpdate("begin;" +
-                                    "DELETE FROM UserDetails WHERE userDetailsID ='" + id + "';" +
-                                    "DELETE FROM Students WHERE userDetailsID ='" + id + "';" +
-                                    "DELETE FROM Admins WHERE userDetailsID ='" + id + "';" +
-                                    "DELETE FROM Mentors WHERE userDetailsID ='" + id + "';" +
-                                    "DELETE FROM OfficeMembers WHERE userDetailsID ='" + id + "';" +
-                                    "commit;");
-        statement.close();
-        connection.close();
+        try {
+            statement.executeUpdate("begin;" +
+                                        "DELETE FROM UserDetails WHERE userDetailsID ='" + id + "';" +
+                                        "DELETE FROM Students WHERE userDetailsID ='" + id + "';" +
+                                        "DELETE FROM Admins WHERE userDetailsID ='" + id + "';" +
+                                        "DELETE FROM Mentors WHERE userDetailsID ='" + id + "';" +
+                                        "DELETE FROM OfficeMembers WHERE userDetailsID ='" + id + "';" +
+                                        "commit;");
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         initializeUsers();
     }
 
+    @Override
     public void editUserDataById(int id, String table, String paramToEdit, String newData) {
         connect();
         try {
