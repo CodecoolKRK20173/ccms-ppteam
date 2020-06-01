@@ -58,7 +58,7 @@ public class View {
             }
             String[][] obj = allObj.toArray(new String[][]{});
             System.out.println(FlipTableConverters.fromObjects(headers, obj));
-        }else{
+        } else {
             String[] headers = {"Id", "Name", "Surname", "Email", "Password", "Type"};
             ArrayList<String[]> allObj = new ArrayList<>();
             for (int i = 0; i < users.size(); i++) {
@@ -69,5 +69,9 @@ public class View {
             String[][] obj = allObj.toArray(new String[][]{});
             System.out.println(FlipTableConverters.fromObjects(headers, obj));
         }
+    }
+
+    public void print(String prompt) {
+        System.out.println(prompt);
     }
 }
