@@ -8,9 +8,9 @@ import com.codecool.utilities.*;
 
 import static com.codecool.models.UserTypes.*;
 
-public class MenuController {
+public class MenuController extends Menu{
     public boolean isRunning;
-    private final String[] menu = {"Welcome to CcMS" ,"1. Log in", "0. Exit"};
+    private final String[] menuPrompt = {"Welcome to CcMS" ,"1. Log in", "0. Exit"};
 
 
     public MenuController() {
@@ -20,7 +20,7 @@ public class MenuController {
 
     public void mainMenu() {
         View.getInstance().clearScreen();
-        View.getInstance().showMenu(menu);
+        View.getInstance().showMenu(menuPrompt);
         switch (InputProvider.getInstance().getInt("SELECT OPTION: ")){
             case 1:
                 login();
@@ -32,19 +32,20 @@ public class MenuController {
     }
 
     private void login() {
-        String[] data = getUserData();
-        switch (getUserType(data)){
+        Menu menu;
+        User user = getUser(getUserData());
+        switch ((user == null ? NONE : user.getType())){
             case MENTOR:
-                MentorController.getInstance().menu();
+                new MentorController(user).menu();
                 break;
             case ADMIN:
-                AdminController.getInstance().menu();
+                new AdminController().menu();
                 break;
             case OFFICE_MEMBER:
-                OfficeMemberController.getInstance().menu();
+                new OfficeMemberController().menu();
                 break;
             case STUDENT:
-                StudentController.getInstance(getUser(data)).menu();
+                new StudentController(user).menu();
                 break;
             case NONE:
                 View.getInstance().wrongData();
@@ -52,21 +53,11 @@ public class MenuController {
     }
 
     private String[] getUserData() {
-        return InputProvider.dataProvider();
+        return InputProvider.getInstance().dataProvider();
     }
 
     private User getUser(String[] data) {
         return UsersContainer.getInstance().getUserByEmailAndPassword(data[0], data[1]);
-    }
-
-    private UserTypes getUserType(String[] data) {
-        UserTypes type = NONE;
-        try {
-            User user = getUser(data);
-            type = user.getType();
-        }catch (Exception e){}
-        return type;
-
     }
 
 }

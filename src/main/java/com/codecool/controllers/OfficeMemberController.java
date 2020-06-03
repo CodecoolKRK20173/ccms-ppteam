@@ -6,30 +6,17 @@ import com.codecool.user.OfficeMember;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
-public class OfficeMemberController {
-    private static OfficeMemberController instance;
-    private OfficeMember officeMember;
+public class OfficeMemberController extends Menu{
     private final String[] menu = {"1.Show students list", "0.Exit"};
     UsersContainer usersContainer = new UsersContainer();
 
-    private OfficeMemberController(){}
-
-    public static OfficeMemberController getInstance() {
-        if (instance == null) {
-            synchronized(OfficeMemberController.class) {
-                if (instance == null) {
-                    instance = new OfficeMemberController();
-                }
-            }
-        }
-        return instance;
-    }
+    OfficeMemberController(){}
 
     public void menu() {
         boolean isRunning = true;
         while (isRunning){
             View.getInstance().showMenu(menu);
-            switch (InputProvider.getInt("SELECT OPTION: ")){
+            switch (InputProvider.getInstance().getInt("SELECT OPTION: ")){
                 case 1:
                     View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT));
                     break;

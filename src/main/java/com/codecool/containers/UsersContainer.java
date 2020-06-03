@@ -43,7 +43,7 @@ public class UsersContainer {
                 return user;
             }
         }
-        throw new NoSuchElementException("There isn't user with specified data in database");
+        return null;
     }
 
     public void addUser(User user) {

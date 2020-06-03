@@ -5,31 +5,21 @@ import com.codecool.user.User;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
-public class StudentController {
+public class StudentController extends Menu{
     private static StudentController instance;
-    private User student;
+    private Student student;
     private String[] menu = {"1.Show grades" , "2.Submit assignment","3.Check your attendance", "0. Exit"};
 
     StudentController(User student){
-        this.student = student;
+        this.student = (Student) student;
     }
 
-    public static StudentController getInstance(User student) {
-        if (instance == null) {
-            synchronized(MentorController.class) {
-                if (instance == null) {
-                    instance = new StudentController(student);
-                }
-            }
-        }
-        return instance;
-    }
 
     public void menu() {
         boolean isRunning = true;
         while (isRunning){
             View.getInstance().showMenu(menu);
-            switch (InputProvider.getInt("SELECT OPTION: ")){
+            switch (InputProvider.getInstance().getInt("SELECT OPTION: ")){
                 case 1:
                     break;
                 case 2:
