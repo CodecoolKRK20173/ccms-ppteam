@@ -33,18 +33,10 @@ public class MentorController extends Menu{
                     View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT));
                     break;
                 case 2:
-                    int id = InputProvider.getInstance().getInt("Which student you want to assign a assigment?(id): ");
-                    try{
-                        Student student;
-                        student = (Student) UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT).get(id);
-                        Assignment assignment = new Assignment(mentor, student);
-                        //TODO dao add
-                        //TODO view -> added successfully
-                    }catch (Exception e) {
-                        System.out.println("This user isn't student");;
-                    }
+                    addAssignment();
                     break;
                 case 3:
+                    submitAssignment();
                     break;
                 case 4:
                     checkAttendance();
@@ -65,6 +57,23 @@ public class MentorController extends Menu{
                     View.getInstance().wrongData();
             }
 
+        }
+    }
+
+    private void submitAssignment() {
+
+    }
+
+    private void addAssignment() {
+        int id = InputProvider.getInstance().getInt("Which student you want to assign a assignment?(id): ");
+        try{
+            Student student;
+            student = (Student) UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT).get(id);
+//            Assignment assignment = new Assignment(mentor, student);
+            //TODO dao add
+            //TODO view -> added successfully
+        }catch (Exception e) {
+            System.out.println("This user isn't student");;
         }
     }
 

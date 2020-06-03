@@ -6,14 +6,18 @@ import com.codecool.user.Student;
 import java.time.LocalDate;
 
 public class Assignment {
+    private int id;
     private Student owner;
     private AssignmentStatus assignmentStatus;
     private Mentor mentor;
     private String description;
     private LocalDate date;
 
-    public Assignment(Mentor mentor,  Student student){
+    public Assignment(int id,Mentor mentor,  Student student, String description){
+        this.id = id;
         this.mentor = mentor;
+        this.owner = student;
+        this.description = description;
         this.assignmentStatus = AssignmentStatus.TODO;
         this.date = LocalDate.now();
     }
