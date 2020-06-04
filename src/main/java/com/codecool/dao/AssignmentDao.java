@@ -43,10 +43,10 @@ public class AssignmentDao extends Dao{
             }
         return null;
     }
-    public void addAssignment(){
+    public void addAssignment() throws SQLException {
         connect();
         statement.executeUpdate("INSERT INTO Assignments (name, studentID, mentorID, status, date)" +
-                "VALUES ()"//todo add values
+                "VALUES ()");//todo add values
 
     }
     public void updateAssignment(){

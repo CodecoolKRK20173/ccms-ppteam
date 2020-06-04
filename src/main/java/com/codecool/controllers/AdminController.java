@@ -15,11 +15,9 @@ public class AdminController {
             View.getInstance().showMenu(menu);
             switch (InputProvider.getInstance().getInt("SELECT OPTION: ")) {
                 case 1:
-//                    View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT));
                     showStudentsList();
                     break;
                 case 2:
-//                    View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.MENTOR));
                     showMentorsList();
                     break;
                 case 3:
@@ -40,16 +38,10 @@ public class AdminController {
         }
     }
 
-//    private List<User> getStudentsList() {
-//        return UserDao.getInstance().getUsersByUserType(UserTypes.STUDENT);
-//    }
     private void showStudentsList() {
         View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT));
     }
 
-//    private List<User> getMentorsList() {
-//        return UserDao.getInstance().getUsersByUserType(UserTypes.MENTOR);
-//    }
     private void showMentorsList() {
         View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.MENTOR));
     }
@@ -62,7 +54,6 @@ public class AdminController {
         UserTypes userType = UserTypes.MENTOR;
         UserDao.getInstance().addUser(name, surname, email, password, userType);
         View.getInstance().print(String.format("%s %s has been successfully added as %s", name, surname, userType));
-//TODO        UsersContainer.getInstance().addUser(new Mentor(name, surname, email, password, userType)); //zeby nadac id i je pobrac do dodania w user container i tak trzeba wejsc do bazy
     }
 
     private void removeMentor() {

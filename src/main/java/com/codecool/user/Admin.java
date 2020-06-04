@@ -1,9 +1,6 @@
 package com.codecool.user;
 
-import com.codecool.dao.UserDao;
-import java.sql.SQLException;
 import com.codecool.models.UserTypes;
-import java.util.List;
 
 public class Admin extends Employee {
 

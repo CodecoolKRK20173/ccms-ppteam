@@ -1,9 +1,6 @@
 package com.codecool.user;
 
-import com.codecool.dao.UserDao;
 import com.codecool.models.UserTypes;
-
-import java.util.List;
 
 public abstract class Employee extends User {
 
