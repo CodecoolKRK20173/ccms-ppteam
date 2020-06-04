@@ -9,7 +9,6 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>ccms</name>
-  <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
   <properties>
@@ -40,6 +39,11 @@
       <artifactId>commons-validator</artifactId>
       <version>1.6</version>
     </dependency>
+      <dependency>
+          <groupId>com.codecool</groupId>
+          <artifactId>ccms</artifactId>
+          <version>1.0-SNAPSHOT</version>
+      </dependency>
 
 
   </dependencies>
@@ -51,6 +55,14 @@
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>1.2.1</version>
+          <configuration>
+            <mainClass>com.codecool.App</mainClass>
+          </configuration>
         </plugin>
         <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
         <plugin>
