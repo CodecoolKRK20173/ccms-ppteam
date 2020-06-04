@@ -1,7 +1,9 @@
 package com.codecool.controllers;
 
 import com.codecool.containers.UsersContainer;
+import com.codecool.dao.AttendanceDao;
 import com.codecool.dao.UserDao;
+import com.codecool.models.AttendanceTypes;
 import com.codecool.models.UserTypes;
 import com.codecool.user.Mentor;
 import com.codecool.user.Student;
@@ -15,12 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MentorController {
-    private Mentor mentor;
+    private final Mentor mentor;
     private final String[] menu = {"1.Show students list", "2.Add Assignment", "3.Grade an assignment", "4.Check Attendance" ,
             "5.Add student to class", "6.Remove Student from class", "7.Edit student data", "0.Exit"};
+    private final AttendanceDao attendanceDao;
 
-    MentorController(User user){
+    MentorController(User user) {
         this.mentor = (Mentor) user;
+        attendanceDao = new AttendanceDao();
     }
 
     public void menu() {
@@ -72,7 +76,7 @@ public class MentorController {
             //TODO dao add
             //TODO view -> added successfully
         }catch (Exception e) {
-            System.out.println("This user isn't student");;
+            System.out.println("This user isn't student");
         }
     }
 
@@ -96,26 +100,45 @@ public class MentorController {
     }
 
     private void checkAttendance() {
+        String todayDate = todayDate();
         for (User student : UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT)) {
-            List<User> user = new ArrayList<>();
-            user.add(student);
-            View.getInstance().showUsersTable(user);
-            String attendanceType = "absent";
-                switch (InputProvider.getInstance().getInt("Enter student's attendance:\n(1) Present\n(2) Absent\n(0) Skip\nChoice: ")) {
+            if (!attendanceDao.checkIfUserHadCheckedAttendanceToday(student.getId(), todayDate)) {
+                boolean isCorrect = true;
+                showUser(student);
+                AttendanceTypes attendanceType = AttendanceTypes.ABSENT;
+                switch (displayMenuAndGetInt()) {
                     case 1:
-                        attendanceType = "present";
+                        attendanceType = AttendanceTypes.PRESENT;
                         break;
                     case 2:
-                        attendanceType = "absent";
+                        attendanceType = AttendanceTypes.ABSENT;
                         break;
                     case 0:
+                        isCorrect = false;
                         break;
                     default:
                         View.getInstance().wrongData();
+                }
+                if (isCorrect) {
+                    attendanceDao.addAttendance(student.getId(), attendanceType, todayDate);
+                }
             }
-            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            LocalDateTime today = LocalDateTime.now();
-            UserDao.getInstance().addAttendance(student.getId(), attendanceType, dateFormat.format(today));
         }
+    }
+
+    private int displayMenuAndGetInt() {
+        return InputProvider.getInstance().getInt("Enter student's attendance:\n(1) Present\n(2) Absent\n(0) Skip\nChoice: ");
+    }
+
+    private void showUser(User user) {
+        List<User> users = new ArrayList<>();
+        users.add(user);
+        View.getInstance().showUsersTable(users);
+    }
+
+    private String todayDate() {
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime today = LocalDateTime.now();
+        return dateFormat.format(today);
     }
 }
