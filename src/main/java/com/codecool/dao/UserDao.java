@@ -83,8 +83,8 @@ public class UserDao extends Dao implements UserDaoInterface {
         ResultSet result = null;
         try {
             result = statement.executeQuery("SELECT UserDetails.name, UserDetails.surname, Attendance.status, Attendance.date FROM UserDetails\n" +
-                    "                    JOIN Attendance ON userDetails.userDetailsID = Attendance.studentID\n" +
-                    "                    WHERE UserDetails.userDetailsID LIKE "+ id +";");
+                                                "JOIN Attendance ON userDetails.userDetailsID = Attendance.studentID\n" +
+                                                "WHERE UserDetails.userDetailsID LIKE "+ id +";");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -125,19 +125,6 @@ public class UserDao extends Dao implements UserDaoInterface {
         initializeUsers();
     }
 
-    public void addAttendance(int studentId, String status, String date) {
-        connect();
-        try {
-            statement.executeUpdate("INSERT INTO Attendance (studentID, status, date) " +
-                    "VALUES('" + studentId + "', '" + status + "', '" + date + "');");
-            statement.close();
-            connection.close();
-            initializeUsers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        initializeUsers();
-    }
 
     private List<User> createUsersList(ResultSet results) throws SQLException {
         List<User> users = new ArrayList<>();
