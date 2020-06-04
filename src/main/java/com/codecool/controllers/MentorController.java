@@ -2,7 +2,6 @@ package com.codecool.controllers;
 
 import com.codecool.containers.UsersContainer;
 import com.codecool.dao.UserDao;
-import com.codecool.models.Assignment;
 import com.codecool.models.UserTypes;
 import com.codecool.user.Mentor;
 import com.codecool.user.Student;
@@ -15,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MentorController extends Menu{
+public class MentorController {
     private Mentor mentor;
     private final String[] menu = {"1.Show students list", "2.Add Assignment", "3.Grade an assignment", "4.Check Attendance" ,
             "5.Add student to class", "6.Remove Student from class", "7.Edit student data", "0.Exit"};

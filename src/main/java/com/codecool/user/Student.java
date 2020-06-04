@@ -28,7 +28,6 @@ public class Student extends User{
 
     public void setClassroom(String classroom) { this.classroom = classroom; }
 
-    @Override
     public String toString() {
         return String.format("%d %s %s %s %s %s %s", this.getId(), this.getName(), this.getSurname(), this.getEmail(), this.getPassword(), this.getType().toString(), this.getClassroom());
     }

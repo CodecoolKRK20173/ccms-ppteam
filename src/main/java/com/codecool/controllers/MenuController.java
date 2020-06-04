@@ -2,13 +2,12 @@ package com.codecool.controllers;
 
 import com.codecool.containers.UsersContainer;
 import com.codecool.dao.UserDao;
-import com.codecool.models.*;
 import com.codecool.user.User;
 import com.codecool.utilities.*;
 
 import static com.codecool.models.UserTypes.*;
 
-public class MenuController extends Menu{
+public class MenuController {
     public boolean isRunning;
     private final String[] menuPrompt = {"Welcome to CcMS" ,"1. Log in", "0. Exit"};
 
@@ -32,7 +31,6 @@ public class MenuController extends Menu{
     }
 
     private void login() {
-        Menu menu;
         User user = getUser(getUserData());
         switch ((user == null ? NONE : user.getType())){
             case MENTOR:

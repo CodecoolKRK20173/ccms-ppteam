@@ -6,6 +6,7 @@ import com.codecool.user.Student;
 import java.time.LocalDate;
 
 public class Assignment {
+
     private int id;
     private Student owner;
     private AssignmentStatus assignmentStatus;
@@ -60,5 +61,9 @@ public class Assignment {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public int getId() {
+        return this.id;
     }
 }

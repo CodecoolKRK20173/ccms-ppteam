@@ -6,7 +6,7 @@ import com.codecool.models.UserTypes;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
-public class AdminController extends Menu {
+public class AdminController {
     private final String[] menu = {"1.Show students list", "2.Show mentors list" , "3.Add new mentor", "4.Remove mentor", "5.Edit mentors data", "0.Exit"};
 
     public void menu() {

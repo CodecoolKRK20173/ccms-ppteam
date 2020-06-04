@@ -5,7 +5,7 @@ import com.codecool.user.User;
 import com.codecool.utilities.InputProvider;
 import com.codecool.utilities.View;
 
-public class StudentController extends Menu{
+public class StudentController {
     private static StudentController instance;
     private Student student;
     private String[] menu = {"1.Show grades" , "2.Submit assignment","3.Check your attendance", "0. Exit"};

@@ -11,8 +11,4 @@ public class Admin extends Employee {
         super(id, name, surname, email, password, type);
     }
 
-    @Override
-    public String getClassroom() {
-        return null;
-    }
 }
