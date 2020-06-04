@@ -6,7 +6,7 @@ UML plan:https://app.lucidchart.com/documents/edit/2229873f-8762-417c-b996-46b61
 ERD: https://app.lucidchart.com/documents/view/232b4e8d-0b34-4415-a3aa-7d411c68e177#
 
 test login accounts:
-admin@admin.com    | qwerty
-patryk@krol.com    | qwerty
-office@office.com. | qwerty
-mentor@mentor.com. | qwerty
+admin@admin.com    : qwerty
+patryk@krol.com    : qwerty
+office@office.com. : qwerty
+mentor@mentor.com. : qwerty
