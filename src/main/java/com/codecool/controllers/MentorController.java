@@ -1,8 +1,9 @@
 package com.codecool.controllers;
 
 import com.codecool.containers.UsersContainer;
-import com.codecool.dao.AttendanceDao;
+import com.codecool.dao.AssignmentDao;
 import com.codecool.dao.UserDao;
+import com.codecool.models.Assignment;
 import com.codecool.models.AttendanceTypes;
 import com.codecool.models.UserTypes;
 import com.codecool.user.Mentor;
@@ -36,9 +37,11 @@ public class MentorController {
                     View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT));
                     break;
                 case 2:
+                    View.getInstance().showUsersTable(UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT));
                     addAssignment();
                     break;
                 case 3:
+                    View.getInstance().showAssignmentTable(mentor);
                     submitAssignment();
                     break;
                 case 4:
@@ -72,9 +75,9 @@ public class MentorController {
         try{
             Student student;
             student = (Student) UsersContainer.getInstance().getListByUserType(UserTypes.STUDENT).get(id);
-//            Assignment assignment = new Assignment(mentor, student);
-            //TODO dao add
-            //TODO view -> added successfully
+            String description = InputProvider.getInstance().getString("Type the description of assignment:");
+            AssignmentDao assignmentDao = new AssignmentDao();
+            assignmentDao.addAssignment(mentor, student, description);
         }catch (Exception e) {
             System.out.println("This user isn't student");
         }

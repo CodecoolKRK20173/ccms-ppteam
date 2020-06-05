@@ -1,6 +1,8 @@
 package com.codecool.utilities;
 
+import com.codecool.dao.AssignmentDao;
 import com.codecool.dao.UserDao;
+import com.codecool.models.Assignment;
 import com.codecool.models.UserTypes;
 import com.codecool.user.Student;
 import com.codecool.user.User;
@@ -13,6 +15,7 @@ import java.util.List;
 
 public class View {
     private static View instance;
+    private AssignmentDao assignmentDao = new AssignmentDao();
 
     public static View getInstance() {
         if (instance == null) {
@@ -48,6 +51,15 @@ public class View {
         }
     }
 
+    public void showAssignmentTable(User user) {
+        try {
+            ResultSet result = assignmentDao.getAssignmentResultSet(user);
+            System.out.println(FlipTableConverters.fromResultSet(result));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     public void showUsersTable(List<User> users) {
         if (users.get(0).getType().equals(UserTypes.STUDENT)){
             String[] headers = {"Id", "Name", "Surname", "Email", "Password", "Type", "Classroom"};
@@ -55,6 +67,7 @@ public class View {
             for (User user : users) {
                 String[] object = {Integer.toString(user.getId()), user.getName(), user.getSurname()
                         , user.getEmail(), user.getPassword(), user.getType().toString(), ((Student) user).getClassroom()};
+
                 allObj.add(object);
             }
             String[][] obj = allObj.toArray(new String[][]{});
