@@ -7,9 +7,6 @@ import com.codecool.utilities.View;
 
 public class OfficeMemberController {
     private final String[] menu = {"1.Show students list", "0.Exit"};
-    UsersContainer usersContainer = new UsersContainer();
-
-    OfficeMemberController(){}
 
     public void menu() {
         boolean isRunning = true;

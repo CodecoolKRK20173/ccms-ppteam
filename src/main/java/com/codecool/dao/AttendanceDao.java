@@ -19,7 +19,7 @@ public class AttendanceDao extends Dao {
         }
     }
 
-    //TODO wyrzuca wyjatek, rozkminic jak pobrac z query liczbe
+    //TODO wyrzuca wyjatek, pobrac z query liczbe i obsluzyc
     public boolean checkIfUserHadCheckedAttendanceToday(int userID, String date) {
         connect();
         boolean bool;
@@ -28,11 +28,7 @@ public class AttendanceDao extends Dao {
                                       "WHERE studentID LIKE '" + userID + "" +
                                       "AND date LIKE '" + date + "'');");
 
-            if (result.getInt(0) == 0) {
-                bool = false;
-            } else {
-                bool = true;
-            }
+            // tutaj if obslugujacy wynik query
             result.close();
             statement.close();
             connection.close();

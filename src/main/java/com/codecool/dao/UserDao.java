@@ -13,18 +13,6 @@ import java.util.List;
 import static com.codecool.models.UserTypes.*;
 
 public class UserDao extends Dao implements UserDaoInterface {
-    private static UserDao instance;
-
-    public static UserDao getInstance() {
-        if (instance == null) {
-            synchronized(UserDao.class) {
-                if (instance == null) {
-                    instance = new UserDao();
-                }
-            }
-        }
-        return instance;
-    }
 
     public void initializeUsers() {
         ArrayList<User> users = new ArrayList<>();

@@ -11,10 +11,10 @@ public class MenuController {
     public boolean isRunning;
     private final String[] menuPrompt = {"Welcome to CcMS" ,"1. Log in", "0. Exit"};
 
-
     public MenuController() {
         isRunning = true;
-        UserDao.getInstance().initializeUsers();
+        UserDao userDao = new UserDao();
+        userDao.initializeUsers();
     }
 
     public void mainMenu() {

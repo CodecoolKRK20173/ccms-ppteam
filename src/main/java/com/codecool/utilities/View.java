@@ -15,7 +15,8 @@ import java.util.List;
 
 public class View {
     private static View instance;
-    private AssignmentDao assignmentDao = new AssignmentDao();
+    private final AssignmentDao assignmentDao = new AssignmentDao();
+    private final UserDao userDao = new UserDao();
 
     public static View getInstance() {
         if (instance == null) {
@@ -44,10 +45,10 @@ public class View {
     }
     public void showAttendanceTable(int id) {
         try {
-            ResultSet result = UserDao.getInstance().getAttendanceResultSet(id);
+            ResultSet result = userDao.getAttendanceResultSet(id);
             System.out.println(FlipTableConverters.fromResultSet(result));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -55,8 +56,8 @@ public class View {
         try {
             ResultSet result = assignmentDao.getAssignmentResultSet(user);
             System.out.println(FlipTableConverters.fromResultSet(result));
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

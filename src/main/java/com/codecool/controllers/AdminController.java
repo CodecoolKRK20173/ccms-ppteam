@@ -8,7 +8,11 @@ import com.codecool.utilities.View;
 
 public class AdminController {
     private final String[] menu = {"1.Show students list", "2.Show mentors list" , "3.Add new mentor", "4.Remove mentor", "5.Edit mentors data", "0.Exit"};
-
+    private final UserDao userDao;
+    
+    AdminController() {
+        this.userDao = new UserDao();
+    }
     public void menu() {
         boolean isRunning = true;
         while (isRunning){
@@ -52,20 +56,19 @@ public class AdminController {
         String email = InputProvider.getInstance().getEmail();
         String password = InputProvider.getInstance().getString("Enter password: ");
         UserTypes userType = UserTypes.MENTOR;
-        UserDao.getInstance().addUser(name, surname, email, password, userType);
+        userDao.addUser(name, surname, email, password, userType);
         View.getInstance().print(String.format("%s %s has been successfully added as %s", name, surname, userType));
     }
 
     private void removeMentor() {
         int mentorId = InputProvider.getInstance().getInt("Enter mentors id: ");
         if (checkIfUserWithGivenIdExist(mentorId, UserTypes.MENTOR)) {
-            UserDao.getInstance().removeUserById(mentorId);
+            userDao.removeUserById(mentorId);
             UsersContainer.getInstance().removeUserById(mentorId);
             View.getInstance().print("Mentor has been successfully removed.");
         } else {
             View.getInstance().print(String.format("Mentor with given id: %d doesn't exist.%n", mentorId));
         }
-//        UsersContainer.getInstance().isUserOccursById(mentorId) ? UserDao.getInstance().removeUserById(mentorId) : View.getInstance().print(String.format("User with given %d id doesn't exist.", mentorId));
     }
 
     private void editMentorsData() {
@@ -73,7 +76,7 @@ public class AdminController {
         String columnToEdit = InputProvider.getInstance().getString("Enter column to edit: ").toLowerCase();
         String newParamData = InputProvider.getInstance().getString("Enter new data: ");
         if (checkIfUserWithGivenIdExist(mentorId, UserTypes.MENTOR)) {
-            UserDao.getInstance().editUserDataById(mentorId, "UserDetails", columnToEdit, newParamData);
+            userDao.editUserDataById(mentorId, "UserDetails", columnToEdit, newParamData);
             UsersContainer.getInstance().editUserDataById(mentorId, columnToEdit, newParamData);
             View.getInstance().print("Mentors data has been successfully edited.");
         } else {

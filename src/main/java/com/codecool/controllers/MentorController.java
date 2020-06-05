@@ -2,8 +2,8 @@ package com.codecool.controllers;
 
 import com.codecool.containers.UsersContainer;
 import com.codecool.dao.AssignmentDao;
+import com.codecool.dao.AttendanceDao;
 import com.codecool.dao.UserDao;
-import com.codecool.models.Assignment;
 import com.codecool.models.AttendanceTypes;
 import com.codecool.models.UserTypes;
 import com.codecool.user.Mentor;
@@ -22,10 +22,12 @@ public class MentorController {
     private final String[] menu = {"1.Show students list", "2.Add Assignment", "3.Grade an assignment", "4.Check Attendance" ,
             "5.Add student to class", "6.Remove Student from class", "7.Edit student data", "0.Exit"};
     private final AttendanceDao attendanceDao;
+    private final UserDao userDao;
 
     MentorController(User user) {
         this.mentor = (Mentor) user;
         attendanceDao = new AttendanceDao();
+        userDao = new UserDao();
     }
 
     public void menu() {
@@ -87,19 +89,19 @@ public class MentorController {
     private void addStudentToClassroom() {
         int studentId = InputProvider.getInstance().getInt("Enter student id: ");
         String newClassroom = InputProvider.getInstance().getString("Enter new classroom name: ");
-        UserDao.getInstance().editUserDataById(studentId, "Students", "classroom", newClassroom);
+        userDao.editUserDataById(studentId, "Students", "classroom", newClassroom);
     }
 
     private void removeStudentFromClassroom() {
         int studentId = InputProvider.getInstance().getInt("Enter student id: ");
-        UserDao.getInstance().editUserDataById(studentId, "Students", "classroom", null);
+        userDao.editUserDataById(studentId, "Students", "classroom", null);
     }
 
     private void editStudentData() {
         int studentId = InputProvider.getInstance().getInt("Enter mentors id: ");
         String columnToEdit = InputProvider.getInstance().getString("Enter column to edit: ");
         String newParamData = InputProvider.getInstance().getString("Enter new data: ");
-        UserDao.getInstance().editUserDataById(studentId, "UserDetails", columnToEdit, newParamData);
+        userDao.editUserDataById(studentId, "UserDetails", columnToEdit, newParamData);
     }
 
     private void checkAttendance() {

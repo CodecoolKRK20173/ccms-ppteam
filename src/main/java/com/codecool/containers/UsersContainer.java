@@ -7,7 +7,6 @@ import com.codecool.utilities.InputProvider;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public class UsersContainer {
@@ -55,9 +54,6 @@ public class UsersContainer {
     }
 
     public void editUserDataById(int id, String columnToEdit, String newParamData) {
-//        usersList.stream().filter(user -> user.getId() == id).forEach(user -> user.);
-//        ClassWithStuff myStuff = new ClassWithStuff();
-//        Field[] fields = myStuff.getClass().getDeclaredFields();
         for (User user : usersList) {
             if (user.getId() == id) {
                 for (Field field : UsersContainer.getInstance().getClass().getFields()) {
