@@ -23,6 +23,15 @@ public class Assignment {
         this.date = LocalDate.now();
     }
 
+    public Assignment(int id,Mentor mentor,  Student student, String description, AssignmentStatus status, LocalDate date){
+        this.id = id;
+        this.mentor = mentor;
+        this.owner = student;
+        this.description = description;
+        this.assignmentStatus = status;
+        this.date = date;
+    }
+
     public Student getOwner() {
         return owner;
     }
