@@ -38,7 +38,6 @@ public class UserDao extends Dao implements UserDaoInterface {
     @Override
     public List<User> getUsersByUserType(UserTypes userType) {
         List<User> users = new ArrayList<>();
-        User user;
         connect();
         try {
             ResultSet results;
@@ -49,33 +48,7 @@ public class UserDao extends Dao implements UserDaoInterface {
             } else {
                 results = statement.executeQuery("SELECT * FROM UserDetails WHERE userType LIKE '" + userType.toString() + "';");
             }
-            while (results.next()) {
-                int id = results.getInt("UserDetailsID");
-                String name = results.getString("name");
-                String surname = results.getString("surname");
-                String email = results.getString("email");
-                String password = results.getString("password");
-                String type = results.getString("userType");
-                switch (type){
-                    case "student":
-                        String classroom = results.getString("classroom");
-                        user = new Student(id, name, surname, email, password, STUDENT, classroom);
-                        users.add(user);
-                        break;
-                    case "mentor":
-                        user = new Mentor(id, name, surname, email, password, MENTOR);
-                        users.add(user);
-                        break;
-                    case "admin":
-                        user = new Admin(id, name, surname, email, password, ADMIN);
-                        users.add(user);
-                        break;
-                    case "office":
-                        user = new OfficeMember(id, name, surname, email, password, OFFICE_MEMBER);
-                        users.add(user);
-                        break;
-                }
-            }
+            users = createUsersList(results);
             results.close();
             statement.close();
             connection.close();
@@ -88,27 +61,15 @@ public class UserDao extends Dao implements UserDaoInterface {
     @Override
     public void addUser(String name, String surname, String email, String password, UserTypes userType) {
         connect();
-        String connectedTable = "";
-        switch (userType) {
-            case STUDENT:
-                connectedTable = "Students";
-                break;
-            case ADMIN:
-                connectedTable = "Admins";
-                break;
-            case MENTOR:
-                connectedTable = "Mentors";
-                break;
-            case OFFICE_MEMBER:
-                connectedTable = "OfficeMembers";
-                break;
-            default:
-                View.getInstance().print("Incorrect user type.");
+        String tableType = "";
+        while (tableType.equals("")) {
+            tableType = setTableType(userType);
         }
+
         try {
             statement.executeUpdate("INSERT INTO UserDetails (name, surname, email, password, userType) " +
                     "VALUES('" + name + "', '" + surname + "', '" + email + "', '" + password + "', '" + userType + "');" +
-                    "INSERT INTO " + connectedTable + " (userDetailsID) SELECT userDetailsID FROM UserDetails WHERE email LIKE '" + email + "';");
+                    "INSERT INTO " + tableType + " (userDetailsID) SELECT userDetailsID FROM UserDetails WHERE email LIKE '" + email + "';");
             statement.close();
             connection.close();
         } catch (SQLException e) {
@@ -122,8 +83,8 @@ public class UserDao extends Dao implements UserDaoInterface {
         ResultSet result = null;
         try {
             result = statement.executeQuery("SELECT UserDetails.name, UserDetails.surname, Attendance.status, Attendance.date FROM UserDetails\n" +
-                    "                    JOIN Attendance ON userDetails.userDetailsID = Attendance.studentID\n" +
-                    "                    WHERE UserDetails.userDetailsID LIKE "+ id +";");
+                                                "JOIN Attendance ON userDetails.userDetailsID = Attendance.studentID\n" +
+                                                "WHERE UserDetails.userDetailsID LIKE "+ id +";");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -164,17 +125,58 @@ public class UserDao extends Dao implements UserDaoInterface {
         initializeUsers();
     }
 
-    public void addAttendance(int studentId, String status, String date) {
-        connect();
-        try {
-            statement.executeUpdate("INSERT INTO Attendance (studentID, status, date) " +
-                    "VALUES('" + studentId + "', '" + status + "', '" + date + "');");
-            statement.close();
-            connection.close();
-            initializeUsers();
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+    private List<User> createUsersList(ResultSet results) throws SQLException {
+        List<User> users = new ArrayList<>();
+        User user;
+        while (results.next()) {
+            int id = results.getInt("UserDetailsID");
+            String name = results.getString("name");
+            String surname = results.getString("surname");
+            String email = results.getString("email");
+            String password = results.getString("password");
+            String type = results.getString("userType");
+            switch (type){
+                case "student":
+                    String classroom = results.getString("classroom");
+                    user = new Student(id, name, surname, email, password, STUDENT, classroom);
+                    users.add(user);
+                    break;
+                case "mentor":
+                    user = new Mentor(id, name, surname, email, password, MENTOR);
+                    users.add(user);
+                    break;
+                case "admin":
+                    user = new Admin(id, name, surname, email, password, ADMIN);
+                    users.add(user);
+                    break;
+                case "office":
+                    user = new OfficeMember(id, name, surname, email, password, OFFICE_MEMBER);
+                    users.add(user);
+                    break;
+            }
         }
-        initializeUsers();
+        return users;
+    }
+
+    private String setTableType(UserTypes userType) {
+        String tableType = "";
+        switch (userType) {
+            case STUDENT:
+                tableType = "Students";
+                break;
+            case ADMIN:
+                tableType = "Admins";
+                break;
+            case MENTOR:
+                tableType = "Mentors";
+                break;
+            case OFFICE_MEMBER:
+                tableType = "OfficeMembers";
+                break;
+            default:
+                View.getInstance().print("Incorrect user type, please try again.");
+        }
+        return tableType;
     }
 }

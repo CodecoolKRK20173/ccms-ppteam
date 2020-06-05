@@ -64,9 +64,10 @@ public class View {
         if (users.get(0).getType().equals(UserTypes.STUDENT)){
             String[] headers = {"Id", "Name", "Surname", "Email", "Password", "Type", "Classroom"};
             ArrayList<String[]> allObj = new ArrayList<>();
-            for (int i = 0; i < users.size(); i++) {
-                String[] object = {Integer.toString(users.get(i).getId()), users.get(i).getName(), users.get(i).getSurname()
-                        , users.get(i).getEmail(), users.get(i).getPassword(), users.get(i).getType().toString(), ((Student) users.get(i)).getClassroom()};
+            for (User user : users) {
+                String[] object = {Integer.toString(user.getId()), user.getName(), user.getSurname()
+                        , user.getEmail(), user.getPassword(), user.getType().toString(), ((Student) user).getClassroom()};
+
                 allObj.add(object);
             }
             String[][] obj = allObj.toArray(new String[][]{});
@@ -74,9 +75,9 @@ public class View {
         } else {
             String[] headers = {"Id", "Name", "Surname", "Email", "Password", "Type"};
             ArrayList<String[]> allObj = new ArrayList<>();
-            for (int i = 0; i < users.size(); i++) {
-                String[] object = {Integer.toString(users.get(i).getId()), users.get(i).getName(), users.get(i).getSurname()
-                        , users.get(i).getEmail(), users.get(i).getPassword(), users.get(i).getType().toString()};
+            for (User user : users) {
+                String[] object = {Integer.toString(user.getId()), user.getName(), user.getSurname()
+                        , user.getEmail(), user.getPassword(), user.getType().toString()};
                 allObj.add(object);
             }
             String[][] obj = allObj.toArray(new String[][]{});

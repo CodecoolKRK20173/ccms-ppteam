@@ -76,6 +76,7 @@ public class AssignmentDao extends Dao{
         }
         return result;
     }
+
     public void addAssignment(Mentor mentor, Student student, String description){
         connect();
         try{
